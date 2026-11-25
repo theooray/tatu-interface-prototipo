@@ -1,0 +1,1404 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>TaTu Jogos — Tatu do Bem (UFV)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#F5F1E8; --surface:#FFFFFF; --surface-2:#FBF8F2; --ink:#1F2A24; --muted:#5C6A62; --line:#E4DCCB;
+  --pri:#1E6B52; --pri-dark:#154F3C; --pri-soft:#E2F0E9;
+  --acc:#D98A1E; --acc-soft:#FBEBD0;
+  --ok:#1C7A4C; --ok-soft:#E0F3E7;
+  --warn:#8F5A00; --warn-soft:#FDF0D3;
+  --bad:#B3361F; --bad-soft:#FBE3DC;
+  --info:#2B5888; --info-soft:#E2ECF7;
+  --r:14px; --r-sm:10px;
+  --shadow:0 1px 2px rgba(31,42,36,.05),0 6px 18px rgba(31,42,36,.06);
+  --font:"Nunito",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{font-family:var(--font);background:var(--bg);color:var(--ink);font-size:16px;line-height:1.45;-webkit-font-smoothing:antialiased}
+a{color:var(--pri)}
+h1,h2,h3{margin:0;line-height:1.2}
+h1{font-size:1.6rem;font-weight:800}
+h2{font-size:1.2rem;font-weight:800}
+h3{font-size:1.02rem;font-weight:800}
+p{margin:0}
+.muted{color:var(--muted)}
+.small{font-size:.875rem}
+.icon{width:1.15em;height:1.15em;flex:none;vertical-align:-.2em}
+button,input,select,textarea{font:inherit;color:inherit}
+:focus-visible{outline:3px solid #F2B84B;outline-offset:2px;border-radius:6px}
+.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+
+/* ---------- Buttons ---------- */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:.5em;border:1.5px solid transparent;border-radius:999px;padding:.6em 1.15em;font-weight:800;cursor:pointer;text-decoration:none;font-size:.95rem;transition:background .15s,transform .05s,border-color .15s;white-space:nowrap}
+.btn:active{transform:translateY(1px)}
+.btn.primary{background:var(--pri);color:#fff}
+.btn.primary:hover{background:var(--pri-dark)}
+.btn.secondary{background:var(--surface);border-color:var(--line);color:var(--ink)}
+.btn.secondary:hover{border-color:var(--pri);color:var(--pri)}
+.btn.ghost{background:transparent;color:var(--ink)}
+.btn.ghost:hover{background:rgba(0,0,0,.05)}
+.btn.danger{background:var(--bad);color:#fff}
+.btn.danger-ghost{background:transparent;color:var(--bad);border-color:#EBC3B8}
+.btn.danger-ghost:hover{background:var(--bad-soft)}
+.btn[disabled],.btn.disabled{background:#E7E2D7;color:#8B958F;border-color:transparent;cursor:not-allowed;transform:none}
+.btn.block{width:100%}
+.btn.sm{padding:.42em .85em;font-size:.85rem}
+.linkbtn{background:none;border:0;padding:0;color:var(--pri);font-weight:700;cursor:pointer;text-decoration:underline;text-underline-offset:3px}
+
+/* ---------- Forms ---------- */
+.field{display:flex;flex-direction:column;gap:.35rem;margin-bottom:1rem}
+.field label{font-weight:700;font-size:.92rem}
+.input{display:flex;align-items:center;gap:.6rem;background:var(--surface);border:1.5px solid var(--line);border-radius:var(--r-sm);padding:0 .8rem;transition:border-color .15s}
+.input:focus-within{border-color:var(--pri)}
+.input input,.input select{border:0;outline:0;background:transparent;padding:.7rem 0;width:100%;min-width:0}
+.input .icon{color:var(--muted)}
+.input.invalid{border-color:var(--bad);background:#FFF8F6}
+.hint{font-size:.82rem;color:var(--muted)}
+.err{font-size:.85rem;color:var(--bad);font-weight:700;display:block}
+.err .icon{margin-right:.3rem}
+.err[hidden]{display:none}
+textarea.ta{width:100%;border:1.5px solid var(--line);border-radius:var(--r-sm);padding:.65rem .8rem;min-height:80px;resize:vertical;background:var(--surface)}
+textarea.ta:focus{border-color:var(--pri);outline:0}
+textarea.ta.invalid{border-color:var(--bad)}
+select.sel{border:1.5px solid var(--line);border-radius:999px;padding:.5rem 2.1rem .5rem .95rem;background:var(--surface) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%235C6A62' stroke-width='3'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E") no-repeat right .8rem center;appearance:none;font-weight:700;cursor:pointer}
+.check{display:flex;align-items:center;gap:.6rem;padding:.55rem .2rem;cursor:pointer;font-weight:600}
+.check input{width:20px;height:20px;accent-color:var(--pri);flex:none}
+
+/* ---------- Banners / badges ---------- */
+.banner{display:flex;gap:.7rem;align-items:flex-start;padding:.8rem 1rem;border-radius:var(--r-sm);border:1px solid;font-size:.93rem;text-decoration:none;color:inherit}
+.banner .icon{margin-top:.1em}
+.banner.info{background:var(--info-soft);border-color:#C5D7EC;color:#1F3F63}
+.banner.warn{background:var(--warn-soft);border-color:#F0D69A;color:#5E3C00}
+.banner.bad{background:var(--bad-soft);border-color:#EFBDAF;color:#7A2414}
+.banner.ok{background:var(--ok-soft);border-color:#B5DEC4;color:#0F4E2F}
+a.banner:hover{filter:brightness(.98)}
+.badge{display:inline-flex;align-items:center;gap:.3rem;font-size:.78rem;font-weight:800;padding:.22rem .6rem;border-radius:999px;white-space:nowrap}
+.badge.ok{background:var(--ok-soft);color:var(--ok)}
+.badge.bad{background:var(--bad-soft);color:var(--bad)}
+.badge.warn{background:var(--warn-soft);color:var(--warn)}
+.badge.info{background:var(--info-soft);color:var(--info)}
+.badge.neutral{background:#ECE7DC;color:#55605A}
+.count{display:inline-grid;place-items:center;min-width:20px;height:20px;padding:0 6px;border-radius:999px;background:var(--acc);color:#fff;font-size:.72rem;font-weight:800}
+
+/* ---------- Layout ---------- */
+.topbar{position:sticky;top:0;z-index:20;background:rgba(255,255,255,.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+.topbar-in{max-width:1120px;margin:0 auto;display:flex;align-items:center;gap:1rem;padding:.65rem 1.1rem}
+.brand{display:flex;align-items:center;gap:.55rem;text-decoration:none;color:var(--ink);font-weight:800;font-size:1.12rem}
+.brand small{display:block;font-size:.72rem;color:var(--muted);font-weight:700;margin-top:-2px}
+.topnav{display:flex;gap:.25rem;margin-left:1rem}
+.brand,.brand small,.userchip .meta{white-space:nowrap}
+.topnav a{white-space:nowrap;display:flex;align-items:center;gap:.45rem;text-decoration:none;color:var(--muted);font-weight:800;padding:.5rem .8rem;border-radius:999px}
+.topnav a:hover{color:var(--ink);background:rgba(0,0,0,.04)}
+.topnav a.active{color:var(--pri);background:var(--pri-soft)}
+.top-right{margin-left:auto;display:flex;align-items:center;gap:.4rem}
+.userchip{display:flex;align-items:center;gap:.55rem;padding:.3rem .4rem .3rem .3rem;border-radius:999px;border:1px solid var(--line);background:var(--surface)}
+.avatar{width:32px;height:32px;border-radius:50%;display:grid;place-items:center;background:var(--acc-soft);color:#7A4A00;font-weight:800;font-size:.85rem;flex:none}
+.userchip .meta{line-height:1.1;font-size:.85rem}
+.userchip .meta b{display:block}
+.userchip .meta span{color:var(--muted);font-size:.75rem}
+.iconbtn{display:inline-grid;place-items:center;width:38px;height:38px;border-radius:50%;border:0;background:transparent;cursor:pointer;color:var(--muted)}
+.iconbtn:hover{background:rgba(0,0,0,.05);color:var(--ink)}
+main.container{max-width:1120px;margin:0 auto;padding:1.4rem 1.1rem 6rem}
+.page-head{display:flex;align-items:flex-end;justify-content:space-between;gap:1rem;flex-wrap:wrap;margin-bottom:1.1rem}
+.page-head p{margin-top:.2rem}
+.stack{display:flex;flex-direction:column;gap:.75rem}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow)}
+.pad{padding:1.2rem}
+.back{display:inline-flex;align-items:center;gap:.3rem;text-decoration:none;font-weight:800;color:var(--muted);margin-bottom:1rem}
+.back:hover{color:var(--pri)}
+.bottomnav{display:none}
+
+/* ---------- Login ---------- */
+.auth-wrap{min-height:100vh;display:grid;grid-template-columns:1.05fr 1fr}
+.auth-side{background:var(--pri);color:#fff;padding:3rem;display:flex;flex-direction:column;justify-content:space-between;position:relative;overflow:hidden}
+.auth-side h1{font-size:2.3rem;max-width:12ch}
+.auth-side p{opacity:.85;max-width:38ch;margin-top:.8rem;font-size:1.05rem}
+.auth-side .deco{position:absolute;right:-60px;bottom:-60px;opacity:.13;width:380px}
+.auth-steps{display:flex;flex-direction:column;gap:.7rem;margin-top:2rem}
+.auth-steps div{display:flex;gap:.7rem;align-items:center;font-weight:700}
+.auth-steps span{display:grid;place-items:center;width:30px;height:30px;border-radius:50%;background:rgba(255,255,255,.16);font-weight:800;flex:none}
+.auth-main{display:flex;flex-direction:column;justify-content:center;padding:2.5rem;gap:1rem;max-width:520px;width:100%;margin:0 auto}
+.auth-card{padding:1.8rem}
+.auth-card h2{font-size:1.5rem}
+.auth-links{display:flex;justify-content:space-between;gap:.5rem;flex-wrap:wrap;margin-top:.9rem;font-size:.92rem}
+.divider{display:flex;align-items:center;gap:.7rem;color:var(--muted);font-size:.85rem;margin:1.2rem 0 .9rem}
+.divider::before,.divider::after{content:"";flex:1;height:1px;background:var(--line)}
+.demo-box{border:1.5px dashed #CDBF9F;border-radius:var(--r-sm);padding:.85rem 1rem;font-size:.85rem;background:#FFFBF2}
+.demo-box b{font-weight:800}
+.demo-box table{width:100%;border-collapse:collapse;margin-top:.4rem}
+.demo-box td{padding:.2rem .3rem}
+.demo-box button{font-size:.78rem}
+
+/* ---------- Catalog ---------- */
+.toolbar{display:flex;gap:.7rem;flex-wrap:wrap;align-items:center;margin:.2rem 0 1rem}
+.search{flex:1 1 320px;display:flex;align-items:center;gap:.6rem;background:var(--surface);border:1.5px solid var(--line);border-radius:999px;padding:0 .9rem}
+.search:focus-within{border-color:var(--pri)}
+.search input{border:0;outline:0;background:transparent;padding:.72rem 0;width:100%}
+kbd{font-family:inherit;font-size:.72rem;font-weight:800;border:1px solid var(--line);border-bottom-width:2px;border-radius:6px;padding:.05rem .4rem;color:var(--muted);background:var(--surface-2)}
+.pills{display:flex;gap:.4rem;flex-wrap:wrap}
+.pill{border:1.5px solid var(--line);background:var(--surface);border-radius:999px;padding:.45rem .95rem;font-weight:800;cursor:pointer;font-size:.9rem;color:var(--muted);display:inline-flex;gap:.35rem;align-items:center}
+.pill:hover{border-color:var(--pri);color:var(--pri)}
+.pill[aria-pressed="true"]{background:var(--ink);border-color:var(--ink);color:#fff}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:1rem}
+.gcard{display:flex;flex-direction:column;overflow:hidden}
+.gcard .art{aspect-ratio:16/8;max-height:170px}
+.gcard .body{padding:.9rem 1rem 1rem;display:flex;flex-direction:column;gap:.5rem;flex:1}
+.gcard .title-row{display:flex;justify-content:space-between;align-items:flex-start;gap:.5rem}
+.gcard .facts{display:flex;gap:.8rem;color:var(--muted);font-size:.83rem;font-weight:700;flex-wrap:wrap}
+.gcard .facts span{display:inline-flex;align-items:center;gap:.25rem}
+.gcard .actions{display:flex;gap:.45rem;margin-top:auto;padding-top:.4rem}
+.gcard .actions .btn{flex:1;padding-left:.6em;padding-right:.6em}
+.art{position:relative;display:flex;align-items:flex-end;padding:.8rem;color:#fff;overflow:hidden;border-radius:0}
+.art .t{font-weight:800;font-size:1.25rem;line-height:1.05;text-shadow:0 2px 0 rgba(0,0,0,.18);position:relative;z-index:1;max-width:80%}
+.art .shape{position:absolute;border-radius:16px;transform:rotate(-14deg);background:rgba(255,255,255,.14)}
+.art.unavail{filter:grayscale(.75) brightness(.95)}
+.favbtn{position:absolute;top:.55rem;right:.55rem;z-index:2;width:36px;height:36px;border-radius:50%;border:0;background:rgba(255,255,255,.92);display:grid;place-items:center;cursor:pointer;color:#9AA39E}
+.favbtn:hover{color:var(--bad)}
+.favbtn[aria-pressed="true"]{color:var(--bad)}
+.favbtn[aria-pressed="true"] svg{fill:currentColor}
+.again{margin-bottom:1.2rem}
+.again-row{display:flex;gap:.7rem;overflow-x:auto;padding-bottom:.3rem;scroll-snap-type:x mandatory}
+.again-item{display:flex;align-items:center;gap:.7rem;padding:.55rem .6rem .55rem .55rem;min-width:250px;scroll-snap-align:start}
+.mini-art{width:46px;height:46px;border-radius:10px;flex:none;display:grid;place-items:center;color:#fff;font-weight:800;font-size:.95rem}
+.again-item .info{flex:1;min-width:0}
+.again-item .info b{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.empty{text-align:center;padding:2.5rem 1rem;color:var(--muted)}
+.empty .icon{width:42px;height:42px;color:#B8AE97;margin-bottom:.4rem}
+.empty h3{color:var(--ink);margin-bottom:.3rem}
+
+/* ---------- Details ---------- */
+.detail{display:grid;grid-template-columns:minmax(260px,380px) 1fr;gap:1.4rem;align-items:start}
+.detail .art{aspect-ratio:4/3.3;border-radius:var(--r)}
+.detail .art .t{font-size:2rem}
+.facts-lg{display:grid;grid-template-columns:repeat(3,1fr);gap:.6rem;margin:1rem 0}
+.fact{background:var(--surface-2);border:1px solid var(--line);border-radius:var(--r-sm);padding:.7rem .8rem}
+.fact span{display:block;font-size:.75rem;color:var(--muted);font-weight:800;text-transform:uppercase;letter-spacing:.04em}
+.fact b{font-size:1.02rem}
+.rules{border-radius:var(--r);border:1px solid var(--line);background:var(--surface-2);padding:1rem 1.1rem}
+.rules ul{margin:.5rem 0 0;padding-left:1.15rem}
+.rules li{margin:.25rem 0}
+.cta-row{display:flex;gap:.6rem;flex-wrap:wrap;align-items:center;margin-top:1.1rem}
+
+/* ---------- Confirmation ---------- */
+.confirm-card{max-width:560px;margin:0 auto;text-align:center;padding:2rem 1.6rem}
+.big-check{width:72px;height:72px;border-radius:50%;background:var(--ok-soft);color:var(--ok);display:grid;place-items:center;margin:0 auto 1rem}
+.big-check .icon{width:38px;height:38px}
+.code-box{border:2px dashed #BFB396;border-radius:var(--r);padding:1rem;margin:1.2rem 0;display:flex;gap:1rem;align-items:center;text-align:left;background:var(--surface-2)}
+.code-box .code{font-size:1.45rem;font-weight:800;letter-spacing:.04em}
+.qr{width:92px;height:92px;flex:none;background:#fff;padding:5px;border-radius:8px;border:1px solid var(--line)}
+.kv{display:flex;flex-direction:column;gap:.6rem;text-align:left;margin:1rem 0 1.4rem}
+.kv div{display:flex;gap:.7rem;align-items:flex-start}
+.kv .icon{color:var(--pri);margin-top:.15em}
+
+/* ---------- My reservations ---------- */
+.res-card{display:grid;grid-template-columns:64px 1fr auto;gap:1rem;padding:1rem;align-items:start}
+.res-card .mini-art{width:64px;height:64px;font-size:1.1rem}
+.res-card .top{display:flex;gap:.5rem;align-items:center;flex-wrap:wrap}
+.res-card .acts{display:flex;flex-direction:column;gap:.45rem;align-items:stretch}
+.steps{display:flex;align-items:center;gap:0;margin:.7rem 0 .3rem;max-width:420px}
+.step{display:flex;flex-direction:column;align-items:center;gap:.2rem;font-size:.72rem;font-weight:800;color:#9AA39E;flex:none;width:72px;text-align:center}
+.step .dot{width:22px;height:22px;border-radius:50%;border:2px solid #CFC8B8;background:#fff;display:grid;place-items:center}
+.step.done{color:var(--ok)}
+.step.done .dot{background:var(--ok);border-color:var(--ok);color:#fff}
+.step.now{color:var(--ink)}
+.step.now .dot{border-color:var(--acc);box-shadow:0 0 0 4px var(--acc-soft)}
+.step.fail{color:var(--bad)}
+.step.fail .dot{background:var(--bad);border-color:var(--bad);color:#fff}
+.step-line{flex:1;height:2px;background:#DDD6C6;margin:0 -18px 18px;min-width:20px}
+.step-line.done{background:var(--ok)}
+.meter{height:8px;background:#ECE6D8;border-radius:999px;overflow:hidden;margin-top:.35rem}
+.meter i{display:block;height:100%;background:var(--pri);border-radius:999px}
+.meter.warn i{background:var(--acc)}
+.meter.bad i{background:var(--bad)}
+.section-title{display:flex;align-items:center;gap:.5rem;margin:1.6rem 0 .7rem}
+.quota{display:flex;align-items:center;gap:.8rem;padding:.8rem 1rem}
+.quota-dots{display:flex;gap:.3rem}
+.quota-dots i{width:14px;height:14px;border-radius:4px;background:#E4DDCD}
+.quota-dots i.on{background:var(--pri)}
+
+/* ---------- Attendant ---------- */
+.att{display:grid;grid-template-columns:220px 1fr;max-width:1240px;margin:0 auto;min-height:calc(100vh - 61px)}
+.sidebar{border-right:1px solid var(--line);padding:1.2rem .7rem;display:flex;flex-direction:column;gap:.2rem;position:sticky;top:61px;height:calc(100vh - 61px)}
+.sidebar a{display:flex;align-items:center;gap:.65rem;padding:.65rem .8rem;border-radius:10px;text-decoration:none;color:var(--muted);font-weight:800}
+.sidebar a:hover{background:rgba(0,0,0,.04);color:var(--ink)}
+.sidebar a.active{background:var(--pri-soft);color:var(--pri)}
+.sidebar a .count{margin-left:auto}
+.att main{padding:1.5rem 1.6rem 5rem;min-width:0}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:.9rem;margin-bottom:1.4rem}
+.stat{padding:1rem 1.1rem;text-decoration:none;color:inherit;display:flex;flex-direction:column;gap:.3rem;transition:border-color .15s,transform .1s}
+.stat:hover{border-color:var(--pri);transform:translateY(-1px)}
+.stat .lbl{display:flex;align-items:center;gap:.45rem;font-weight:800;color:var(--muted);font-size:.88rem}
+.stat .num{font-size:2.1rem;font-weight:800;line-height:1}
+.stat.alert{background:var(--bad-soft);border-color:#EFBDAF}
+.stat.alert .num,.stat.alert .lbl{color:var(--bad)}
+.quick{display:grid;grid-template-columns:1fr 1fr;gap:.9rem}
+.qa{display:flex;align-items:center;gap:1rem;padding:1.2rem;text-decoration:none;color:inherit;border:1.5px solid var(--line);cursor:pointer;text-align:left;width:100%;font:inherit}
+.qa:hover{border-color:var(--pri)}
+.qa .ic{width:52px;height:52px;border-radius:14px;display:grid;place-items:center;background:var(--pri-soft);color:var(--pri);flex:none}
+.qa .ic .icon{width:26px;height:26px}
+.table-wrap{overflow-x:auto}
+table.tbl{width:100%;border-collapse:collapse;font-size:.92rem}
+.tbl th{text-align:left;font-size:.75rem;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);font-weight:800;padding:.7rem .9rem;border-bottom:1px solid var(--line);background:var(--surface-2)}
+.tbl td{padding:.75rem .9rem;border-bottom:1px solid #EFE9DC;vertical-align:middle}
+.tbl tr:last-child td{border-bottom:0}
+.tbl tr.hl td{background:#FFF7E6}
+.tbl tr.overdue td{background:#FFF5F2}
+.who b{display:block}
+.who span{font-size:.82rem;color:var(--muted)}
+.mono{font-variant-numeric:tabular-nums;font-weight:800;letter-spacing:.02em}
+.ret-head{display:flex;gap:1rem;align-items:center;padding:1rem}
+.ret-head .mini-art{width:84px;height:84px;font-size:1.3rem}
+.checklist{padding:1rem 1.1rem;border-top:1px solid var(--line)}
+.att-split{display:grid;grid-template-columns:1.3fr 1fr;gap:1rem}
+
+/* ---------- Dialog / toast / demo ---------- */
+dialog{border:0;padding:0;border-radius:18px;max-width:min(480px,calc(100vw - 2rem));width:100%;box-shadow:0 20px 60px rgba(0,0,0,.25);color:var(--ink)}
+dialog.wide{max-width:min(640px,calc(100vw - 2rem))}
+dialog::backdrop{background:rgba(25,32,28,.45);backdrop-filter:blur(2px)}
+.dlg{padding:1.4rem 1.4rem 1.1rem}
+.dlg h2{font-size:1.25rem;display:flex;gap:.6rem;align-items:center}
+.dlg-body{margin:.8rem 0 1.2rem;color:#38443D}
+.dlg-body p+p{margin-top:.6rem}
+.dlg-actions{display:flex;justify-content:flex-end;gap:.5rem;flex-wrap:wrap}
+.dlg-ic{width:40px;height:40px;border-radius:12px;display:grid;place-items:center;flex:none}
+.dlg-ic.ok{background:var(--pri-soft);color:var(--pri)}
+.dlg-ic.bad{background:var(--bad-soft);color:var(--bad)}
+.dlg-ic.warn{background:var(--warn-soft);color:var(--warn)}
+.dlg-ic.info{background:var(--info-soft);color:var(--info)}
+.sum{background:var(--surface-2);border:1px solid var(--line);border-radius:var(--r-sm);padding:.75rem .9rem;margin-top:.7rem;font-size:.92rem}
+.sum div{display:flex;justify-content:space-between;gap:1rem;padding:.15rem 0}
+.sum div span{color:var(--muted)}
+.sim-list{display:flex;flex-direction:column;gap:.45rem;margin-top:.8rem}
+.sim-list a,.sim-list button{display:flex;align-items:center;gap:.7rem;padding:.55rem;border-radius:10px;border:1px solid var(--line);text-decoration:none;color:inherit;background:var(--surface);cursor:pointer;text-align:left;width:100%}
+.sim-list a:hover,.sim-list button:hover{border-color:var(--pri)}
+.scanner{position:relative;height:180px;border-radius:14px;background:#1B2420;overflow:hidden;display:grid;place-items:center;color:#9FB3A9;font-size:.85rem}
+.scanner .frame{position:absolute;inset:30px 30%;border:3px solid rgba(255,255,255,.75);border-radius:12px}
+.scanner .line{position:absolute;left:30%;right:30%;height:2px;background:#5EE0A6;box-shadow:0 0 12px #5EE0A6;animation:scan 1.8s ease-in-out infinite alternate;top:34px}
+@keyframes scan{to{top:144px}}
+.faq details{border-bottom:1px solid var(--line);padding:.7rem 0}
+.faq summary{font-weight:800;cursor:pointer;list-style:none;display:flex;justify-content:space-between;gap:1rem}
+.faq summary::after{content:"+";font-size:1.2rem;color:var(--muted)}
+.faq details[open] summary::after{content:"–"}
+.faq details p{margin-top:.45rem;color:#3E4A43;font-size:.94rem}
+#toasts{position:fixed;left:50%;bottom:1.2rem;transform:translateX(-50%);display:flex;flex-direction:column;gap:.5rem;z-index:100;width:min(460px,calc(100vw - 2rem))}
+.toast{display:flex;align-items:center;gap:.7rem;background:#1F2A24;color:#fff;padding:.75rem .9rem .75rem 1rem;border-radius:12px;box-shadow:0 10px 30px rgba(0,0,0,.25);animation:tin .2s ease-out;font-weight:600;font-size:.93rem}
+.toast .icon{color:#7FE0B0}
+.toast.bad .icon{color:#FF9C86}
+.toast span{flex:1}
+.toast button{background:transparent;border:0;color:#F2C46B;font-weight:800;cursor:pointer;padding:.3rem .4rem;border-radius:6px}
+.toast button:hover{background:rgba(255,255,255,.08)}
+@keyframes tin{from{opacity:0;transform:translateY(8px)}}
+.demo-fab{position:fixed;right:1rem;bottom:1rem;z-index:50;display:flex;align-items:center;gap:.4rem;border:1.5px dashed #B9AB88;background:#FFFBF0;color:#6B5A2E;border-radius:999px;padding:.45rem .8rem;font-weight:800;font-size:.8rem;cursor:pointer;box-shadow:var(--shadow)}
+.demo-fab:hover{background:#FFF3D6}
+.clock-pill{font-size:.75rem;font-weight:800;color:#6B5A2E;background:#FFF3D6;border-radius:999px;padding:.15rem .5rem}
+
+/* ---------- Responsive ---------- */
+@media (max-width:960px){
+  .stats{grid-template-columns:repeat(2,1fr)}
+  .att-split{grid-template-columns:1fr}
+}
+@media (max-width:860px){
+  .auth-wrap{grid-template-columns:1fr}
+  .auth-side{padding:1.6rem 1.4rem}
+  .auth-side h1{font-size:1.6rem}
+  .auth-side .auth-steps,.auth-side .deco,.auth-side .foot{display:none}
+  .auth-main{padding:1.2rem}
+  .detail{grid-template-columns:1fr}
+  .detail .art{aspect-ratio:auto;height:200px}
+  .userchip .meta{display:none}
+  .userchip{padding:.2rem;border:0;background:transparent}
+  .brand small{display:none}
+  .att{grid-template-columns:1fr}
+  .sidebar{position:sticky;top:61px;height:auto;flex-direction:row;overflow-x:auto;border-right:0;border-bottom:1px solid var(--line);padding:.5rem;background:var(--bg);z-index:5;scrollbar-width:none}
+  .sidebar a{white-space:nowrap;padding:.5rem .75rem}
+  .att main{padding:1.1rem 1rem 5rem}
+}
+@media (max-width:640px){
+  h1{font-size:1.35rem}
+  .topnav{display:none}
+  .userchip .meta{display:none}
+  .userchip{padding:.2rem;border:0}
+  .bottomnav{display:flex;position:fixed;bottom:0;left:0;right:0;z-index:30;background:#fff;border-top:1px solid var(--line);padding:.35rem .4rem calc(.35rem + env(safe-area-inset-bottom))}
+  .bottomnav a,.bottomnav button{flex:1;display:flex;flex-direction:column;align-items:center;gap:.1rem;font-size:.72rem;font-weight:800;color:var(--muted);text-decoration:none;padding:.35rem 0;border:0;background:none;position:relative;cursor:pointer}
+  .bottomnav a.active{color:var(--pri)}
+  .bottomnav .icon{width:22px;height:22px}
+  .bottomnav .count{position:absolute;top:0;left:calc(50% + 4px)}
+  .demo-fab{bottom:4.6rem;right:.6rem}
+  #toasts{bottom:5rem}
+  .grid{grid-template-columns:1fr 1fr;gap:.7rem}
+  .search kbd{display:none}
+  .again-row{scrollbar-width:none}
+  .gcard .body{padding:.7rem}
+  .gcard .actions{flex-direction:column}
+  .gcard .facts{font-size:.76rem;gap:.5rem}
+  .art .t{font-size:1.05rem}
+  .res-card{grid-template-columns:48px 1fr}
+  .res-card .mini-art{width:48px;height:48px}
+  .res-card .acts{grid-column:1/-1;flex-direction:row;flex-wrap:wrap}
+  .res-card .acts .btn{flex:1}
+  .facts-lg{grid-template-columns:1fr 1fr 1fr}
+  .stats{gap:.6rem}
+  .stat .num{font-size:1.7rem}
+  .quick{grid-template-columns:1fr}
+  .code-box{flex-direction:column;text-align:center}
+}
+@media (max-width:900px){
+  .tbl.responsive thead{display:none}
+  .tbl.responsive tr{display:grid;grid-template-columns:1fr auto;gap:.2rem .6rem;padding:.75rem .9rem;border-bottom:1px solid #EFE9DC}
+  .tbl.responsive td{padding:0;border:0}
+  .tbl.responsive td[data-l]::before{content:attr(data-l) ": ";color:var(--muted);font-size:.78rem;font-weight:700}
+  .tbl.responsive td.act{grid-column:1/-1;margin-top:.4rem}
+  .tbl.responsive td.act .btn{width:100%}
+}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<div id="app"></div>
+<dialog id="dlg"></dialog>
+<div id="toasts" aria-live="polite"></div>
+
+<script>
+/* =====================================================================
+   TaTu Jogos — protótipo funcional (versão pós-avaliação heurística)
+   Dados ficam no localStorage do navegador. Abrir em duas abas permite
+   testar concorrência real (ex.: dois alunos reservando o mesmo jogo).
+   ===================================================================== */
+
+const KEY = 'tatujogos-v1';
+const MIN = 60e3, H = 60 * MIN, D = 24 * H;
+const RULES = { pickupWindow: 2 * H, loanDays: 7, maxActive: 2 };
+const ACTIVE = ['reservada', 'retirada'];
+
+/* ---------------- ícones ---------------- */
+const P = {
+  search:'<circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/>',
+  heart:'<path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/>',
+  users:'<path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/>',
+  clock:'<circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/>',
+  check:'<path d="M20 6 9 17l-5-5"/>',
+  x:'<path d="M18 6 6 18M6 6l12 12"/>',
+  calendar:'<rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/>',
+  box:'<path d="M21 8 12 3 3 8v8l9 5 9-5Z"/><path d="m3 8 9 5 9-5M12 13v8"/>',
+  scan:'<path d="M3 7V5a2 2 0 0 1 2-2h2M17 3h2a2 2 0 0 1 2 2v2M21 17v2a2 2 0 0 1-2 2h-2M7 21H5a2 2 0 0 1-2-2v-2"/><rect x="7" y="7" width="4" height="4" rx=".5"/><rect x="13" y="13" width="4" height="4" rx=".5"/><path d="M13 7h4v2M7 15v2h2"/>',
+  undo:'<path d="M3 7v6h6"/><path d="M21 17a9 9 0 0 0-9-9 9 9 0 0 0-6 2.3L3 13"/>',
+  home:'<path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><path d="M9 22V12h6v10"/>',
+  layers:'<path d="m12 2 10 5-10 5L2 7z"/><path d="m2 17 10 5 10-5M2 12l10 5 10-5"/>',
+  dice:'<rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="8" cy="8" r="1.3" fill="currentColor"/><circle cx="16" cy="16" r="1.3" fill="currentColor"/><circle cx="12" cy="12" r="1.3" fill="currentColor"/><circle cx="16" cy="8" r="1.3" fill="currentColor"/><circle cx="8" cy="16" r="1.3" fill="currentColor"/>',
+  log:'<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M16 13H8M16 17H8M10 9H8"/>',
+  logout:'<path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9"/>',
+  help:'<circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3M12 17h.01"/>',
+  back:'<path d="m15 18-6-6 6-6"/>',
+  alert:'<path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><path d="M12 9v4M12 17h.01"/>',
+  user:'<circle cx="12" cy="8" r="4"/><path d="M4 21v-1a6 6 0 0 1 6-6h4a6 6 0 0 1 6 6v1"/>',
+  lock:'<rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/>',
+  eye:'<path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7S2 12 2 12Z"/><circle cx="12" cy="12" r="3"/>',
+  eyeoff:'<path d="M9.88 9.88a3 3 0 1 0 4.24 4.24M10.73 5.08A10.4 10.4 0 0 1 12 5c7 0 10 7 10 7a13 13 0 0 1-1.67 2.68M6.61 6.61A13.5 13.5 0 0 0 2 12s3 7 10 7a9.7 9.7 0 0 0 5.39-1.61M2 2l20 20"/>',
+  info:'<circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/>',
+  list:'<path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"/>',
+  repeat:'<path d="m17 2 4 4-4 4"/><path d="M3 11v-1a4 4 0 0 1 4-4h14"/><path d="m7 22-4-4 4-4"/><path d="M21 13v1a4 4 0 0 1-4 4H3"/>',
+  sliders:'<path d="M4 21v-7M4 10V3M12 21v-9M12 8V3M20 21v-5M20 12V3M1 14h6M9 8h6M17 16h6"/>',
+  pin:'<path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/>',
+  mail:'<rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 6L2 7"/>',
+  arrow:'<path d="M5 12h14M12 5l7 7-7 7"/>',
+};
+const ic = (n, cls='') => `<svg class="icon ${cls}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${P[n]}</svg>`;
+const logo = (s=34) => `<svg width="${s}" height="${s}" viewBox="0 0 40 40" aria-hidden="true"><rect width="40" height="40" rx="11" fill="#1E6B52"/><path d="M7 27c0-8 5.5-14 13-14s13 6 13 14z" fill="#F4E3BE"/><path d="M13 15.5 15 27M20 13v14M27 15.5 25 27" stroke="#1E6B52" stroke-width="1.6"/><circle cx="33" cy="25" r="2.4" fill="#F4E3BE"/><rect x="9" y="27" width="4" height="4" rx="1.5" fill="#F4E3BE"/><rect x="26" y="27" width="4" height="4" rx="1.5" fill="#F4E3BE"/></svg>`;
+
+/* ---------------- dados iniciais ---------------- */
+function seed() {
+  const t = Date.now();
+  const games = [
+    { id:'coup', name:'Coup', genre:'Blefe', players:'2–6', time:'15 min', units:1, c:'#B23A48', desc:'Jogo rápido de blefe e dedução. Cada jogador tem duas cartas de influência e precisa eliminar as dos outros mentindo (ou não) sobre quem tem.' },
+    { id:'catan', name:'Catan', genre:'Estratégia', players:'3–4', time:'90 min', units:2, c:'#C8702A', desc:'Colete recursos, negocie com os outros jogadores e construa estradas, vilas e cidades na ilha de Catan.' },
+    { id:'dixit', name:'Dixit', genre:'Party', players:'3–8', time:'30 min', units:1, c:'#6A4C93', desc:'Um jogador descreve uma carta ilustrada com uma pista; os outros tentam adivinhar qual é. Criativo e ótimo para grupos.' },
+    { id:'ticket', name:'Ticket to Ride', genre:'Família', players:'2–5', time:'60 min', units:1, c:'#2D6A8F', desc:'Conecte cidades construindo rotas de trem e cumpra seus bilhetes de destino antes dos adversários.' },
+    { id:'codenames', name:'Codenames', genre:'Party', players:'2–8', time:'15 min', units:2, c:'#3D405B', desc:'Duas equipes, dois espiões-mestres e uma grade de palavras. Dê pistas de uma palavra para seu time encontrar os agentes certos.' },
+    { id:'azul', name:'Azul', genre:'Abstrato', players:'2–4', time:'40 min', units:1, c:'#1F7A8C', desc:'Escolha azulejos coloridos e decore a parede do palácio real. Bonito, rápido de aprender e cheio de decisões.' },
+    { id:'carcassonne', name:'Carcassonne', genre:'Estratégia', players:'2–5', time:'45 min', units:1, c:'#5B8C3A', desc:'Monte o mapa de uma região medieval peça por peça e posicione seus seguidores em cidades, estradas e campos.' },
+    { id:'uno', name:'Uno', genre:'Cartas', players:'2–10', time:'20 min', units:3, c:'#C0392B', desc:'O clássico de cartas: combine cor ou número e seja o primeiro a ficar sem cartas. Não esqueça de gritar UNO!' },
+    { id:'sushigo', name:'Sushi Go!', genre:'Cartas', players:'2–5', time:'15 min', units:1, c:'#D9668A', desc:'Monte a melhor combinação de pratos de sushi passando cartas entre os jogadores. Leve e divertido.' },
+    { id:'pandemic', name:'Pandemic', genre:'Cooperativo', players:'2–4', time:'45 min', units:1, c:'#2E7D6B', desc:'Os jogadores trabalham juntos como especialistas para conter quatro doenças antes que se espalhem pelo mundo.' },
+    { id:'xadrez', name:'Xadrez', genre:'Abstrato', players:'2', time:'30+ min', units:2, c:'#4A4E4D', desc:'O clássico de estratégia. Tabuleiro e peças completos.' },
+    { id:'dobble', name:'Dobble', genre:'Party', players:'2–8', time:'15 min', units:1, c:'#E07A1F', desc:'Encontre o símbolo em comum entre duas cartas antes de todo mundo. Reflexo puro.' },
+    { id:'war', name:'War', genre:'Estratégia', players:'3–6', time:'120 min', units:1, c:'#7A3B2E', desc:'Conquiste territórios e cumpra seu objetivo secreto neste clássico de estratégia militar.' },
+    { id:'splendor', name:'Splendor', genre:'Estratégia', players:'2–4', time:'30 min', units:1, c:'#8C6D1F', desc:'Seja um comerciante de pedras preciosas no Renascimento: colete gemas, compre cartas e atraia nobres.' },
+  ];
+  const users = [
+    { id:'9801', name:'Pedro Santos', role:'aluno', email:'pedro.santos@ufv.br', pass:'tatu123', status:'ativa', favs:['coup','codenames'] },
+    { id:'7702', name:'Felipe Melo', role:'professor', email:'felipe.melo@ufv.br', pass:'tatu123', status:'ativa', favs:[] },
+    { id:'5500', name:'Camila Rezende', role:'atendente', email:'camila.rezende@ufv.br', pass:'tatu123', status:'ativa', favs:[] },
+    { id:'9000', name:'Lucas Prado', role:'aluno', email:'lucas.prado@ufv.br', pass:'tatu123', status:'inativa', favs:[] },
+    { id:'9815', name:'Maria Souza', role:'aluno', email:'maria.souza@ufv.br', pass:'tatu123', status:'ativa', favs:[] },
+    { id:'9822', name:'João Lima', role:'aluno', email:'joao.lima@ufv.br', pass:'tatu123', status:'ativa', favs:[] },
+    { id:'9830', name:'Ana Costa', role:'aluno', email:'ana.costa@ufv.br', pass:'tatu123', status:'ativa', favs:[] },
+    { id:'9841', name:'Bruno Reis', role:'aluno', email:'bruno.reis@ufv.br', pass:'tatu123', status:'ativa', favs:[] },
+    { id:'9853', name:'Júlia Martins', role:'aluno', email:'julia.martins@ufv.br', pass:'tatu123', status:'ativa', favs:[] },
+  ];
+  let num = 115;
+  const mk = (userId, gameId, createdAgo, status, extra={}) => {
+    const createdAt = t - createdAgo;
+    const r = { id:'r'+(++num), num, userId, gameId, createdAt, pickupDeadline: createdAt + RULES.pickupWindow, status, ...extra };
+    r.code = initials(users.find(u=>u.id===userId).name) + '-' + userId + '-' + String(num).padStart(4,'0');
+    if (extra.pickedAgo != null) { r.pickedAt = t - extra.pickedAgo; r.dueAt = r.pickedAt + RULES.loanDays*D; delete r.pickedAgo; }
+    if (extra.returnedAgo != null) { r.returnedAt = t - extra.returnedAgo; delete r.returnedAgo; r.check={box:true,parts:true,obs:''}; }
+    return r;
+  };
+  const res = [
+    mk('9801','coup', 21*D, 'devolvida', { pickedAgo: 21*D - 40*MIN, returnedAgo: 15*D }),
+    mk('9801','sushigo', 34*D, 'devolvida', { pickedAgo: 34*D - 1*H, returnedAgo: 29*D }),
+    mk('9830','pandemic', 9*D + 1*H, 'retirada', { pickedAgo: 9*D }),
+    mk('9841','catan', 3*D + 1*H, 'retirada', { pickedAgo: 3*D }),
+    mk('9853','catan', 8*D + 2*H, 'retirada', { pickedAgo: 8*D + 1*H }),
+    mk('9815','uno', 1*D + 1*H, 'retirada', { pickedAgo: 1*D }),
+    mk('7702','ticket', 5*D + 30*MIN, 'retirada', { pickedAgo: 5*D }),
+    mk('9822','war', 10*D + 1*H, 'retirada', { pickedAgo: 10*D }),
+    mk('9815','dixit', 30*MIN, 'reservada'),
+    mk('9822','codenames', 1*H + 40*MIN, 'reservada'),
+    mk('9853','azul', 3*D, 'expirada', { expiredAt: t - 3*D + RULES.pickupWindow }),
+  ];
+  const log = res.filter(r=>r.status!=='reservada').slice(0,6).map(r=>({
+    t: r.returnedAt || r.pickedAt || r.createdAt, type: r.status==='devolvida'?'devolucao':r.status==='expirada'?'expiracao':'retirada', resId:r.id, by: r.status==='expirada'?'sistema':'5500'
+  }));
+  return { games, users, res, log, seq: num, clockOffset: 0, simConflict: false };
+}
+
+/* ---------------- estado ---------------- */
+let S;
+function load() { try { S = JSON.parse(localStorage.getItem(KEY)); } catch(e) { S = null; } if (!S || !S.games) { S = seed(); save(); } }
+function save() { localStorage.setItem(KEY, JSON.stringify(S)); }
+const now = () => Date.now() + (S.clockOffset || 0);
+const game = id => S.games.find(g => g.id === id);
+const user = id => S.users.find(u => u.id === id);
+const resv = id => S.res.find(r => r.id === id);
+function me() {
+  const id = sessionStorage.getItem('tatu-session');
+  if (id === 'visitante') return { id:'visitante', name:'Visitante', role:'visitante', favs:[] };
+  return id ? user(id) : null;
+}
+function initials(name) { const p = name.trim().split(/\s+/); return (p[0][0] + (p.length>1 ? p[p.length-1][0] : '')).toUpperCase(); }
+function esc(s) { return String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+function norm(s) { return String(s).toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,''); }
+function addLog(type, resId, by, extra={}) { S.log.unshift({ t: now(), type, resId, by, ...extra }); }
+
+function sweep() { // expiração automática de reservas não retiradas
+  let changed = false;
+  for (const r of S.res) if (r.status === 'reservada' && now() > r.pickupDeadline) {
+    r.status = 'expirada'; r.expiredAt = r.pickupDeadline; addLog('expiracao', r.id, 'sistema'); changed = true;
+  }
+  if (changed) save();
+}
+const available = gid => game(gid).units - S.res.filter(r => r.gameId === gid && ACTIVE.includes(r.status)).length;
+const activeOf = uid => S.res.filter(r => r.userId === uid && ACTIVE.includes(r.status));
+const isOverdue = r => r.status === 'retirada' && now() > r.dueAt;
+function nextFree(gid) {
+  const ts = S.res.filter(r => r.gameId===gid && ACTIVE.includes(r.status)).map(r => r.status==='retirada' ? r.dueAt : r.pickupDeadline);
+  return ts.length ? Math.min(...ts) : null;
+}
+function similar(gid, n=3) {
+  const g = game(gid);
+  const av = S.games.filter(x => x.id!==gid && available(x.id) > 0);
+  return [...av.filter(x=>x.genre===g.genre), ...av.filter(x=>x.genre!==g.genre)].slice(0,n);
+}
+function recentGames(uid) {
+  const seen = new Set(activeOf(uid).map(r => r.gameId)), out = []; // ignora jogos que a pessoa já tem ativos
+  S.res.filter(r => r.userId===uid && ['devolvida','expirada','cancelada'].includes(r.status)).sort((a,b)=>b.createdAt-a.createdAt)
+    .forEach(r => { if (!seen.has(r.gameId)) { seen.add(r.gameId); out.push(game(r.gameId)); } });
+  return out.slice(0,6);
+}
+
+/* ---------------- formatação de tempo ---------------- */
+const pad = n => String(n).padStart(2,'0');
+const fmtTime = ts => { const d = new Date(ts); return `${pad(d.getHours())}:${pad(d.getMinutes())}`; };
+const fmtDate = ts => { const d = new Date(ts); return `${pad(d.getDate())}/${pad(d.getMonth()+1)}`; };
+function dayDiff(ts) { const a = new Date(now()); a.setHours(0,0,0,0); const b = new Date(ts); b.setHours(0,0,0,0); return Math.round((b-a)/D); }
+function fmtWhen(ts) { const dd = dayDiff(ts); return dd===0 ? `hoje, às ${fmtTime(ts)}` : dd===1 ? `amanhã, às ${fmtTime(ts)}` : dd===-1 ? `ontem, às ${fmtTime(ts)}` : `${fmtDate(ts)} às ${fmtTime(ts)}`; }
+function fmtLeft(ms) {
+  if (ms <= 0) return 'expirado';
+  if (ms < H) return `${Math.max(1, Math.ceil(ms/MIN))} min`;
+  if (ms < D) { const h = Math.floor(ms/H), m = Math.floor((ms%H)/MIN); return `${h}h${m?pad(m):''}`; }
+  const d = Math.ceil(ms/D); return `${d} ${d===1?'dia':'dias'}`;
+}
+function fmtAgo(ms) { const d = Math.floor(ms/D); if (d>=1) return `${d} ${d===1?'dia':'dias'}`; const h = Math.floor(ms/H); return h>=1 ? `${h}h` : `${Math.max(1,Math.floor(ms/MIN))} min`; }
+
+/* ---------------- componentes ---------------- */
+function art(g, cls='', withFav=false, favOn=false) {
+  const av = available(g.id) > 0;
+  return `<div class="art ${cls} ${av?'':'unavail'}" style="background:linear-gradient(135deg, ${g.c}, ${shade(g.c,-28)})">
+    <span class="shape" style="width:120px;height:120px;right:-24px;top:-30px"></span>
+    <span class="shape" style="width:70px;height:70px;right:50px;bottom:-30px;transform:rotate(18deg)"></span>
+    <span class="t">${esc(g.name)}</span>
+    ${withFav ? `<button class="favbtn" data-act="fav" data-id="${g.id}" aria-pressed="${favOn}" aria-label="${favOn?'Remover dos':'Adicionar aos'} favoritos: ${esc(g.name)}" title="${favOn?'Remover dos favoritos':'Favoritar'}">${ic('heart')}</button>` : ''}
+  </div>`;
+}
+const miniArt = g => `<div class="mini-art" style="background:linear-gradient(135deg, ${g.c}, ${shade(g.c,-28)})">${initials(g.name)}</div>`;
+function shade(hex, p) { const n = parseInt(hex.slice(1),16); const f = v => Math.max(0,Math.min(255, v + Math.round(255*p/100))); return '#' + [f(n>>16), f((n>>8)&255), f(n&255)].map(v=>v.toString(16).padStart(2,'0')).join(''); }
+function availBadge(g) {
+  const a = available(g.id);
+  if (a > 0) return `<span class="badge ok">${ic('check')} Disponível · ${a} de ${g.units}</span>`;
+  const nf = nextFree(g.id);
+  return `<span class="badge bad">${ic('x')} Indisponível</span>${nf ? `<span class="small muted">${nf < now() ? 'Devolução atrasada' : 'Previsão: ' + fmtDate(nf)}</span>` : ''}`;
+}
+const STATUS = {
+  reservada: ['warn','Aguardando retirada'], retirada: ['info','Com você'], devolvida: ['ok','Devolvido'],
+  cancelada: ['neutral','Cancelada'], expirada: ['neutral','Expirada'],
+};
+function statusBadge(r, forAtt=false) {
+  if (isOverdue(r)) return `<span class="badge bad">${ic('alert')} Atrasado</span>`;
+  const [k, l] = STATUS[r.status];
+  return `<span class="badge ${k}">${forAtt && r.status==='retirada' ? 'Emprestado' : l}</span>`;
+}
+function qrSvg(text) { // padrão visual de QR (simulado) gerado a partir do código
+  let h = 2166136261; for (const ch of text) { h ^= ch.charCodeAt(0); h = Math.imul(h, 16777619); }
+  const rnd = () => { h ^= h << 13; h ^= h >>> 17; h ^= h << 5; return (h >>> 0) / 4294967296; };
+  const N = 25; let s = '';
+  const finder = (x,y) => `<rect x="${x}" y="${y}" width="7" height="7" fill="#1F2A24"/><rect x="${x+1}" y="${y+1}" width="5" height="5" fill="#fff"/><rect x="${x+2}" y="${y+2}" width="3" height="3" fill="#1F2A24"/>`;
+  const inF = (x,y) => (x<8&&y<8)||(x>N-9&&y<8)||(x<8&&y>N-9);
+  for (let y=0;y<N;y++) for (let x=0;x<N;x++) if (!inF(x,y) && rnd() > .52) s += `<rect x="${x}" y="${y}" width="1" height="1"/>`;
+  return `<svg class="qr" viewBox="0 0 ${N} ${N}" shape-rendering="crispEdges" role="img" aria-label="QR code da reserva ${esc(text)}"><g fill="#1F2A24">${s}</g>${finder(0,0)}${finder(N-7,0)}${finder(0,N-7)}</svg>`;
+}
+function stepper(r) {
+  const fail = r.status==='cancelada' || r.status==='expirada';
+  const s1 = 'done';
+  const s2 = r.status==='reservada' ? 'now' : fail ? 'fail' : 'done';
+  const s3 = r.status==='devolvida' ? 'done' : r.status==='retirada' ? (isOverdue(r)?'fail':'now') : '';
+  const l2 = fail ? (r.status==='cancelada'?'Cancelada':'Expirou') : 'Retirada';
+  return `<div class="steps" aria-label="Andamento">
+    <div class="step ${s1}"><span class="dot">${ic('check')}</span>Reservada</div>
+    <div class="step-line ${s2==='done'?'done':''}"></div>
+    <div class="step ${s2}"><span class="dot">${s2==='done'?ic('check'):s2==='fail'?ic('x'):''}</span>${l2}</div>
+    ${fail ? '' : `<div class="step-line ${s3==='done'?'done':''}"></div>
+    <div class="step ${s3}"><span class="dot">${s3==='done'?ic('check'):s3==='fail'?ic('alert'):''}</span>Devolvida</div>`}
+  </div>`;
+}
+
+/* ---------------- diálogo e toast ---------------- */
+const dlg = document.getElementById('dlg');
+let pendingResolve = null;
+function modal({ title, body, actions=[{label:'Ok', value:true, kind:'primary'}], icon, tone='ok', wide=false, onMount }) {
+  return new Promise(resolve => {
+    if (pendingResolve) { const p = pendingResolve; pendingResolve = null; p(undefined); }
+    pendingResolve = resolve;
+    dlg.className = wide ? 'wide' : '';
+    dlg.innerHTML = `<form method="dialog" class="dlg">
+      <h2>${icon ? `<span class="dlg-ic ${tone}">${ic(icon)}</span>` : ''}<span>${title}</span></h2>
+      <div class="dlg-body">${body}</div>
+      <div class="dlg-actions">${actions.map((a,i)=>`<button value="${i}" class="btn ${a.kind||'secondary'}" ${a.autofocus?'autofocus':''}>${a.label}</button>`).join('')}</div>
+    </form>`;
+    dlg.returnValue = '';
+    dlg.onclose = () => {
+      if (dlg.open) return; // evento atrasado de um diálogo anterior: ignora
+      const v = dlg.returnValue, r = pendingResolve; pendingResolve = null;
+      r && r(v==='' ? undefined : actions[+v]?.value);
+    };
+    dlg.showModal();
+    onMount && onMount(dlg);
+  });
+}
+dlg.addEventListener('click', e => {
+  if (e.target === dlg) dlg.close();                      // clique fora fecha
+  if (e.target.closest('a[href^="#"]')) dlg.close();      // links internos fecham
+});
+function toast(msg, { action, bad=false, timeout=7000 } = {}) {
+  const el = document.createElement('div');
+  el.className = 'toast' + (bad ? ' bad' : '');
+  el.innerHTML = `${ic(bad?'alert':'check')}<span>${msg}</span>${action?`<button type="button">${action.label}</button>`:''}<button type="button" aria-label="Fechar aviso">${ic('x')}</button>`;
+  const btns = el.querySelectorAll('button');
+  const close = () => el.remove();
+  if (action) btns[0].onclick = () => { close(); action.fn(); };
+  btns[btns.length-1].onclick = close;
+  document.getElementById('toasts').appendChild(el);
+  setTimeout(close, timeout);
+}
+
+/* ---------------- ajuda / FAQ (H10) ---------------- */
+function openHelp() {
+  modal({ title:'Ajuda — como funciona', icon:'help', tone:'info', wide:true, actions:[{label:'Entendi', value:true, kind:'primary'}], body:`
+    <div class="faq">
+      <details open><summary>Como reservo um jogo?</summary><p>No catálogo, toque em <b>Reservar</b> no jogo desejado e confirme. Você recebe um código (e QR code) para apresentar no balcão do Tatu do Bem.</p></details>
+      <details><summary>Quanto tempo tenho para retirar?</summary><p>Até <b>2 horas</b> depois de reservar. Se não retirar nesse prazo, a reserva expira sozinha e o jogo volta ao catálogo para outras pessoas.</p></details>
+      <details><summary>Por quantos dias fico com o jogo?</summary><p><b>${RULES.loanDays} dias</b> a partir da retirada. A data de devolução aparece em <b>Minhas reservas</b>.</p></details>
+      <details><summary>Quantos jogos posso pegar ao mesmo tempo?</summary><p>Até <b>${RULES.maxActive}</b> entre reservas e empréstimos ativos, para que mais gente possa jogar.</p></details>
+      <details><summary>Reservei por engano. E agora?</summary><p>Vá em <b>Minhas reservas</b> e toque em <b>Cancelar reserva</b>. O jogo volta a ficar disponível na hora. Dá para desfazer logo em seguida, se mudar de ideia.</p></details>
+      <details><summary>Atrasei a devolução. O que acontece?</summary><p>O empréstimo aparece como <b>Atrasado</b> e você não consegue fazer novas reservas até devolver. Não há multa: só devolva no balcão o quanto antes.</p></details>
+      <details><summary>Não tenho matrícula ativa. Posso usar?</summary><p>Sim. Veja <a href="#/visitante">Como usar sem matrícula</a>: o empréstimo é feito direto no balcão, com um documento com foto.</p></details>
+      <details><summary>Esqueci minha senha</summary><p>Use <a href="#/esqueci">Esqueci minha senha</a> na tela de entrada. Enviamos um código para o seu e-mail institucional.</p></details>
+    </div>
+    <p class="small muted" style="margin-top:.9rem">${ic('pin')} Balcão do Tatu do Bem · seg. a sex., 8h às 18h</p>` });
+}
+
+/* ---------------- painel de testes do protótipo ---------------- */
+function openDemo() {
+  const off = S.clockOffset || 0;
+  modal({ title:'Ferramentas do protótipo', icon:'sliders', tone:'warn', wide:true, actions:[{label:'Fechar', value:null, kind:'primary'}], body:`
+    <p class="small muted">Este painel não faz parte do design. Serve para demonstrar os estados do sistema durante a apresentação.</p>
+    <h3 style="margin-top:1rem">Relógio simulado</h3>
+    <p class="small">Agora no sistema: <b>${fmtDate(now())} ${fmtTime(now())}</b> ${off?`<span class="clock-pill">+${fmtLeft(off)} adiantado</span>`:''}</p>
+    <div class="cta-row" style="margin-top:.5rem">
+      <button type="button" class="btn secondary sm" data-clock="${30*MIN}">+30 min</button>
+      <button type="button" class="btn secondary sm" data-clock="${2*H}">+2 h</button>
+      <button type="button" class="btn secondary sm" data-clock="${D}">+1 dia</button>
+      <button type="button" class="btn secondary sm" data-clock="${7*D}">+7 dias</button>
+      <button type="button" class="btn ghost sm" data-clock="reset">Voltar ao horário real</button>
+    </div>
+    <p class="hint" style="margin-top:.4rem">Use “+2 h” para ver uma reserva expirar sozinha; “+7 dias” para ver um empréstimo atrasar.</p>
+    <h3 style="margin-top:1.1rem">Concorrência</h3>
+    <label class="check"><input type="checkbox" id="simc" ${S.simConflict?'checked':''}> Na próxima reserva, outra pessoa reserva o mesmo jogo enquanto você confirma</label>
+    <p class="hint">Também dá para testar de verdade: abra o protótipo em duas abas, entre com contas diferentes e reserve o mesmo jogo.</p>
+    <h3 style="margin-top:1.1rem">Entrar rapidamente como</h3>
+    <div class="cta-row" style="margin-top:.4rem">
+      <button type="button" class="btn secondary sm" data-as="9801">Pedro (aluno)</button>
+      <button type="button" class="btn secondary sm" data-as="7702">Felipe (professor)</button>
+      <button type="button" class="btn secondary sm" data-as="5500">Camila (atendente)</button>
+      <button type="button" class="btn secondary sm" data-as="9815">Maria (aluna)</button>
+    </div>
+    <h3 style="margin-top:1.1rem">Dados</h3>
+    <button type="button" class="btn danger-ghost sm" data-reset style="margin-top:.4rem">Restaurar dados iniciais</button>`,
+    onMount: d => {
+      d.querySelectorAll('[data-clock]').forEach(b => b.onclick = () => { load(); const v = b.dataset.clock; S.clockOffset = v==='reset' ? 0 : (S.clockOffset||0) + +v; save(); d.close(); render(); toast(`Relógio do sistema: ${fmtDate(now())} ${fmtTime(now())}`); });
+      d.querySelector('#simc').onchange = e => { load(); S.simConflict = e.target.checked; save(); };
+      d.querySelectorAll('[data-as]').forEach(b => b.onclick = () => { sessionStorage.setItem('tatu-session', b.dataset.as); d.close(); location.hash = user(b.dataset.as).role==='atendente' ? '#/atendente' : '#/catalogo'; render(); });
+      d.querySelector('[data-reset]').onclick = () => { S = seed(); save(); d.close(); render(); toast('Dados restaurados.'); };
+    } });
+}
+
+/* =====================================================================
+   TELAS DO USUÁRIO
+   ===================================================================== */
+let loginState = { err:null, field:null, matricula:'', attempts:0 };
+
+function viewLogin() {
+  const e = loginState;
+  return { full:true, html:`
+  <div class="auth-wrap">
+    <aside class="auth-side">
+      <div>
+        <div class="brand" style="color:#fff">${logo(40)}<div>TaTu Jogos<small style="color:rgba(255,255,255,.7)">Tatu do Bem · UFV</small></div></div>
+        <h1 style="margin-top:2.4rem">Reserve um jogo e retire no balcão.</h1>
+        <p>O caderno de empréstimos do Tatu do Bem agora é digital: veja o que está disponível, reserve pelo celular e acompanhe seus prazos.</p>
+        <div class="auth-steps">
+          <div><span>1</span>Escolha um jogo no catálogo</div>
+          <div><span>2</span>Retire no balcão em até 2 horas</div>
+          <div><span>3</span>Devolva em até ${RULES.loanDays} dias</div>
+        </div>
+      </div>
+      <p class="small foot" style="opacity:.7">${ic('pin')} Balcão do Tatu do Bem · seg. a sex., 8h às 18h</p>
+      <svg class="deco" viewBox="0 0 40 40"><path d="M7 27c0-8 5.5-14 13-14s13 6 13 14z" fill="#fff"/></svg>
+    </aside>
+    <div class="auth-main">
+      <div class="card auth-card">
+        <h2>Entrar</h2>
+        <p class="muted" style="margin:.2rem 0 1.2rem">Use sua matrícula UFV</p>
+        ${e.err && !e.field ? `<div class="banner bad" role="alert" style="margin-bottom:1rem">${ic('alert')}<div>${e.err}</div></div>` : ''}
+        <form id="loginForm" novalidate>
+          <div class="field">
+            <label for="mat">Matrícula</label>
+            <div class="input ${e.field==='mat'?'invalid':''}">${ic('user')}<input id="mat" inputmode="numeric" autocomplete="username" placeholder="Ex.: 9801" value="${esc(e.matricula)}" aria-invalid="${e.field==='mat'}" aria-describedby="matErr"></div>
+            ${e.field==='mat' ? `<span class="err" id="matErr" role="alert">${ic('alert')}${e.err}</span>` : ''}
+          </div>
+          <div class="field">
+            <label for="pw">Senha</label>
+            <div class="input ${e.field==='pw'?'invalid':''}">${ic('lock')}<input id="pw" type="password" autocomplete="current-password" placeholder="Sua senha" aria-invalid="${e.field==='pw'}" aria-describedby="pwErr"><button type="button" class="iconbtn" id="togglePw" aria-label="Mostrar senha" style="width:32px;height:32px">${ic('eye')}</button></div>
+            ${e.field==='pw' ? `<span class="err" id="pwErr" role="alert">${ic('alert')}${e.err}</span>` : ''}
+          </div>
+          <button class="btn primary block" type="submit">Entrar</button>
+        </form>
+        <div class="auth-links">
+          <a href="#/esqueci">Esqueci minha senha</a>
+          <button class="linkbtn" type="button" data-act="help">Ajuda</button>
+        </div>
+        <div class="divider">sem matrícula ativa?</div>
+        <a class="btn secondary block" href="#/visitante">${ic('info')} Como usar sem matrícula</a>
+      </div>
+      <div class="demo-box">
+        <b>Contas de teste do protótipo</b> <span class="muted">(senha de todas: <b>tatu123</b>)</span>
+        <table>
+          <tr><td><b>9801</b></td><td>Pedro Santos — aluno</td><td><button class="linkbtn" data-fill="9801">usar</button></td></tr>
+          <tr><td><b>7702</b></td><td>Felipe Melo — professor</td><td><button class="linkbtn" data-fill="7702">usar</button></td></tr>
+          <tr><td><b>5500</b></td><td>Camila Rezende — atendente</td><td><button class="linkbtn" data-fill="5500">usar</button></td></tr>
+          <tr><td><b>9000</b></td><td>Lucas Prado — matrícula inativa</td><td><button class="linkbtn" data-fill="9000">usar</button></td></tr>
+        </table>
+      </div>
+    </div>
+  </div>`,
+  mount() {
+    const f = document.getElementById('loginForm'), mat = document.getElementById('mat'), pw = document.getElementById('pw');
+    (e.field==='pw' ? pw : mat).focus();
+    document.getElementById('togglePw').onclick = ev => { const show = pw.type==='password'; pw.type = show?'text':'password'; ev.currentTarget.innerHTML = ic(show?'eyeoff':'eye'); ev.currentTarget.setAttribute('aria-label', show?'Ocultar senha':'Mostrar senha'); };
+    mat.oninput = () => { mat.value = mat.value.replace(/\D/g,''); };
+    document.querySelectorAll('[data-fill]').forEach(b => b.onclick = () => { mat.value = b.dataset.fill; pw.value = 'tatu123'; pw.focus(); });
+    f.onsubmit = ev => {
+      ev.preventDefault();
+      const m = mat.value.trim(), p = pw.value;
+      loginState = { err:null, field:null, matricula:m, attempts:e.attempts };
+      const u = user(m);
+      if (!m) loginState = { ...loginState, field:'mat', err:'Informe sua matrícula.' };
+      else if (!p) loginState = { ...loginState, field:'pw', err:'Informe sua senha.' };
+      else if (!u) loginState = { ...loginState, err:`Não encontramos a matrícula <b>${esc(m)}</b>. Confira os números ou veja <a href="#/visitante">como usar sem matrícula</a>.` };
+      else if (u.status !== 'ativa') loginState = { ...loginState, err:`<b>Matrícula inativa.</b> Procure o atendente no balcão do Tatu do Bem para regularizar ou para pegar um jogo como visitante.` };
+      else if (u.pass !== p) { loginState.attempts++; loginState = { ...loginState, field:'pw', err: loginState.attempts>=2 ? 'Senha incorreta de novo. Que tal <a href="#/esqueci">recuperar sua senha</a>?' : 'Senha incorreta. Tente novamente.' }; }
+      else {
+        sessionStorage.setItem('tatu-session', u.id);
+        loginState = { err:null, field:null, matricula:'', attempts:0 };
+        location.hash = u.role==='atendente' ? '#/atendente' : '#/catalogo';
+        return;
+      }
+      render();
+    };
+  }};
+}
+
+let forgot = { step:1, mat:'', err:null };
+function viewForgot() {
+  const f = forgot, u = user(f.mat);
+  const masked = u ? u.email.replace(/^(.)(.*)(@.*)$/, (_,a,b,c)=>a+'•'.repeat(Math.min(b.length,6))+c) : '';
+  const body = f.step===1 ? `
+      <p class="muted" style="margin-bottom:1rem">Informe sua matrícula. Enviaremos um código para o seu e-mail institucional.</p>
+      <form id="fp1" novalidate><div class="field"><label for="fmat">Matrícula</label>
+        <div class="input ${f.err?'invalid':''}">${ic('user')}<input id="fmat" inputmode="numeric" value="${esc(f.mat)}" placeholder="Ex.: 9801"></div>
+        ${f.err?`<span class="err" role="alert">${ic('alert')}${f.err}</span>`:''}</div>
+        <button class="btn primary block">Enviar código</button></form>`
+    : f.step===2 ? `
+      <div class="banner ok" style="margin-bottom:1rem">${ic('mail')}<div>Enviamos um código de 6 dígitos para <b>${esc(masked)}</b>.<br><span class="small">(No protótipo, use o código <b>123456</b>.)</span></div></div>
+      <form id="fp2" novalidate>
+        <div class="field"><label for="code">Código recebido</label><div class="input ${f.err==='code'?'invalid':''}"><input id="code" inputmode="numeric" maxlength="6" placeholder="000000"></div>${f.err==='code'?`<span class="err" role="alert">${ic('alert')}Código incorreto. Confira o e-mail ou reenvie.</span>`:''}</div>
+        <div class="field"><label for="np">Nova senha</label><div class="input ${f.err==='len'?'invalid':''}">${ic('lock')}<input id="np" type="password" placeholder="Mínimo de 6 caracteres"></div>${f.err==='len'?`<span class="err" role="alert">${ic('alert')}A senha precisa ter pelo menos 6 caracteres.</span>`:'<span class="hint">Mínimo de 6 caracteres.</span>'}</div>
+        <div class="field"><label for="np2">Repita a nova senha</label><div class="input ${f.err==='match'?'invalid':''}">${ic('lock')}<input id="np2" type="password"></div>${f.err==='match'?`<span class="err" role="alert">${ic('alert')}As senhas não são iguais.</span>`:''}</div>
+        <button class="btn primary block">Salvar nova senha</button>
+      </form>
+      <p class="small" style="margin-top:.8rem">Não chegou? <button class="linkbtn" id="resend">Reenviar código</button></p>`
+    : `
+      <div style="text-align:center"><div class="big-check">${ic('check')}</div><h3>Senha alterada!</h3><p class="muted" style="margin:.4rem 0 1.2rem">Agora é só entrar com a matrícula ${esc(f.mat)} e a nova senha.</p>
+      <button class="btn primary block" id="goLogin">Ir para o login</button></div>`;
+  return { full:true, html:`
+  <div class="auth-main" style="min-height:100vh">
+    <a class="back" href="#/login">${ic('back')} Voltar ao login</a>
+    <div class="card auth-card">
+      <p class="small muted" style="font-weight:800">Passo ${Math.min(f.step,3)} de 3</p>
+      <h2 style="margin:.2rem 0 .6rem">Recuperar senha</h2>
+      ${body}
+    </div>
+  </div>`,
+  mount() {
+    const f1 = document.getElementById('fp1');
+    if (f1) { const i = document.getElementById('fmat'); i.focus(); i.oninput = () => i.value = i.value.replace(/\D/g,''); f1.onsubmit = ev => { ev.preventDefault(); const m = i.value.trim(); const uu = user(m);
+      forgot = !m ? { step:1, mat:m, err:'Informe sua matrícula.' } : !uu ? { step:1, mat:m, err:'Matrícula não encontrada. Confira os números.' } : uu.status!=='ativa' ? { step:1, mat:m, err:'Matrícula inativa. Procure o atendente no balcão do Tatu do Bem.' } : { step:2, mat:m, err:null };
+      render(); }; }
+    const f2 = document.getElementById('fp2');
+    if (f2) { document.getElementById('code').focus(); document.getElementById('resend').onclick = () => toast('Código reenviado para o seu e-mail.');
+      f2.onsubmit = ev => { ev.preventDefault(); const c = document.getElementById('code').value.trim(), a = document.getElementById('np').value, b = document.getElementById('np2').value;
+        forgot.err = c!=='123456' ? 'code' : a.length<6 ? 'len' : a!==b ? 'match' : null;
+        if (!forgot.err) { load(); user(forgot.mat).pass = a; save(); forgot.step = 3; }
+        render(); }; }
+    const g = document.getElementById('goLogin');
+    if (g) g.onclick = () => { loginState = { err:null, field:null, matricula:forgot.mat, attempts:0 }; forgot = { step:1, mat:'', err:null }; location.hash = '#/login'; };
+  }};
+}
+
+function viewVisitor() {
+  return { full:true, html:`
+  <div class="auth-main" style="min-height:100vh;max-width:640px">
+    <a class="back" href="#/login">${ic('back')} Voltar ao login</a>
+    <div class="card auth-card">
+      <h2>Como usar sem matrícula</h2>
+      <p class="muted" style="margin:.4rem 0 1.2rem">Visitantes, servidores terceirizados e alunos com matrícula trancada também podem jogar. Só muda a forma de pegar o jogo.</p>
+      <div class="kv">
+        <div>${ic('search')}<span><b>1. Veja o catálogo.</b> Você pode navegar como visitante para conferir quais jogos estão disponíveis agora.</span></div>
+        <div>${ic('pin')}<span><b>2. Vá ao balcão do Tatu do Bem</b> com um documento com foto. O atendente registra o empréstimo no seu nome.</span></div>
+        <div>${ic('calendar')}<span><b>3. Mesmas regras:</b> ${RULES.loanDays} dias de empréstimo e até ${RULES.maxActive} jogos por vez.</span></div>
+        <div>${ic('alert')}<span><b>Matrícula inativa por engano?</b> O atendente pode verificar sua situação na hora.</span></div>
+      </div>
+      <div class="cta-row">
+        <button class="btn primary" id="asGuest">${ic('eye')} Ver catálogo como visitante</button>
+        <button class="btn secondary" data-act="help">Dúvidas frequentes</button>
+      </div>
+    </div>
+  </div>`,
+  mount() { document.getElementById('asGuest').onclick = () => { sessionStorage.setItem('tatu-session','visitante'); location.hash = '#/catalogo'; }; }};
+}
+
+/* ---------- Catálogo ---------- */
+let ui = { q:'', filter:'todos', genre:'' };
+function viewCatalog() {
+  const u = me(), guest = u.role==='visitante';
+  const pending = guest ? [] : activeOf(u.id).filter(r=>r.status==='reservada');
+  const overdue = guest ? [] : activeOf(u.id).filter(isOverdue);
+  const recent = guest ? [] : recentGames(u.id);
+  const genres = [...new Set(S.games.map(g=>g.genre))].sort();
+  const pill = (v,l) => `<button class="pill" data-act="filter" data-v="${v}" aria-pressed="${ui.filter===v}">${l}</button>`;
+  return { html:`
+  <div class="page-head"><div><h1>Catálogo de jogos</h1><p class="muted">${S.games.length} jogos no acervo do Tatu do Bem</p></div></div>
+  <div class="stack" style="margin-bottom:1rem">
+    ${overdue.map(r=>`<a class="banner bad" href="#/minhas">${ic('alert')}<div><b>${esc(game(r.gameId).name)}</b> está atrasado há ${fmtAgo(now()-r.dueAt)}. Devolva no balcão para voltar a reservar.</div></a>`).join('')}
+    ${pending.map(r=>`<a class="banner warn" href="#/minhas">${ic('clock')}<div>Você reservou <b>${esc(game(r.gameId).name)}</b>. Retire no balcão até <b>${fmtWhen(r.pickupDeadline)}</b> (faltam ${fmtLeft(r.pickupDeadline-now())}). <u>Ver reserva</u></div></a>`).join('')}
+    ${guest ? `<div class="banner info">${ic('info')}<div>Você está navegando como <b>visitante</b>. Para pegar um jogo, vá ao balcão com um documento com foto. <a href="#/visitante">Saiba mais</a> · <a href="#/login" data-act="logout">Entrar com matrícula</a></div></div>` : ''}
+  </div>
+  ${recent.length ? `<section class="again"><h2 class="small" style="font-size:1rem;margin-bottom:.6rem;display:flex;gap:.4rem;align-items:center">${ic('repeat')} Reservar novamente</h2>
+    <div class="again-row">${recent.map(g=>{ const a = available(g.id)>0; return `<div class="card again-item">${miniArt(g)}<div class="info"><b>${esc(g.name)}</b><span class="small ${a?'':'muted'}">${a?'Disponível':'Indisponível'}</span></div><button class="btn ${a?'primary':'secondary'} sm" data-act="reserve" data-id="${g.id}" ${a?'':'disabled'}>Reservar</button></div>`; }).join('')}</div></section>` : ''}
+  <div class="toolbar">
+    <label class="search">${ic('search')}<span class="sr-only">Buscar jogo</span><input id="q" type="search" placeholder="Buscar jogo pelo nome…" value="${esc(ui.q)}" autocomplete="off"><kbd title="Atalho: tecle / para buscar">/</kbd></label>
+    <div class="pills" role="group" aria-label="Filtrar por disponibilidade">${pill('todos','Todos')}${pill('disp','Disponíveis')}${pill('indisp','Indisponíveis')}${guest?'':pill('fav', ic('heart')+' Favoritos')}</div>
+    <label><span class="sr-only">Gênero</span><select class="sel" id="genre"><option value="">Gênero: todos</option>${genres.map(g=>`<option ${ui.genre===g?'selected':''}>${g}</option>`).join('')}</select></label>
+  </div>
+  <div id="list"></div>`,
+  mount() {
+    const q = document.getElementById('q');
+    q.oninput = () => { ui.q = q.value; renderList(); };
+    document.getElementById('genre').onchange = e => { ui.genre = e.target.value; renderList(); };
+    renderList();
+  }};
+}
+function renderList() {
+  const u = me(), guest = u.role==='visitante', el = document.getElementById('list'); if (!el) return;
+  const list = S.games.filter(g => {
+    if (ui.q && !norm(g.name).includes(norm(ui.q))) return false;
+    if (ui.genre && g.genre !== ui.genre) return false;
+    const a = available(g.id) > 0;
+    if (ui.filter==='disp' && !a) return false;
+    if (ui.filter==='indisp' && a) return false;
+    if (ui.filter==='fav' && !(u.favs||[]).includes(g.id)) return false;
+    return true;
+  }).sort((a,b) => (available(b.id)>0) - (available(a.id)>0) || a.name.localeCompare(b.name));
+  if (!list.length) {
+    el.innerHTML = `<div class="card empty">${ic(ui.filter==='fav'?'heart':'search')}<h3>${ui.filter==='fav' && !ui.q ? 'Você ainda não tem favoritos' : 'Nenhum jogo encontrado'}</h3>
+      <p>${ui.filter==='fav' && !ui.q ? 'Toque no coração de um jogo para encontrá-lo mais rápido depois.' : 'Tente outro nome ou limpe os filtros.'}</p>
+      <button class="btn secondary" style="margin-top:1rem" data-act="clearFilters">Limpar filtros</button></div>`;
+    return;
+  }
+  el.innerHTML = `<p class="small muted" style="margin-bottom:.6rem" aria-live="polite">${list.length} ${list.length===1?'jogo':'jogos'}</p><div class="grid">${list.map(g => {
+    const a = available(g.id) > 0, fav = (u.favs||[]).includes(g.id);
+    return `<article class="card gcard">${art(g,'',!guest,fav)}
+      <div class="body">
+        <div class="title-row"><h3>${esc(g.name)} <span class="muted small" style="font-weight:700">(${g.units} un.)</span></h3></div>
+        <div class="facts"><span>${ic('users')}${g.players}</span><span>${ic('clock')}${g.time}</span><span>${esc(g.genre)}</span></div>
+        <div style="display:flex;gap:.4rem;align-items:center;flex-wrap:wrap">${availBadge(g)}</div>
+        <div class="actions">
+          ${guest ? '' : `<button class="btn ${a?'primary':''} sm" data-act="reserve" data-id="${g.id}" ${a?'':'disabled aria-disabled="true"'}>${a?'Reservar':'Indisponível'}</button>`}
+          <a class="btn secondary sm" href="#/jogo/${g.id}">Ver detalhes</a>
+        </div>
+      </div></article>`;
+  }).join('')}</div>`;
+}
+
+/* ---------- Detalhes do jogo ---------- */
+function viewGame(id) {
+  const g = game(id); if (!g) return viewNotFound();
+  const u = me(), guest = u.role==='visitante', a = available(id), fav = (u.favs||[]).includes(id);
+  const mine = guest ? null : activeOf(u.id).find(r=>r.gameId===id);
+  const nf = nextFree(id), sims = a>0 ? [] : similar(id);
+  const block = guest ? null : blockReason(u, id);
+  return { html:`
+  <a class="back" href="#/catalogo">${ic('back')} Voltar ao catálogo</a>
+  <div class="detail">
+    <div>${art(g,'',!guest,fav)}</div>
+    <div>
+      <p class="small muted" style="font-weight:800;text-transform:uppercase;letter-spacing:.06em;margin-bottom:.4rem">Detalhes do jogo</p>
+      <div style="display:flex;gap:.5rem;align-items:center;flex-wrap:wrap">${availBadge(g)}</div>
+      <h1 style="margin:.5rem 0 .3rem">${esc(g.name)} <span class="muted" style="font-size:1rem;font-weight:700">(${g.units} ${g.units===1?'unidade':'unidades'})</span></h1>
+      <p class="muted">${esc(g.desc)}</p>
+      <div class="facts-lg">
+        <div class="fact"><span>Jogadores</span><b>${g.players}</b></div>
+        <div class="fact"><span>Duração</span><b>~${g.time}</b></div>
+        <div class="fact"><span>Gênero</span><b>${esc(g.genre)}</b></div>
+      </div>
+      <div class="rules">
+        <h3 style="display:flex;gap:.45rem;align-items:center">${ic('info')} Regras do empréstimo</h3>
+        <ul>
+          <li>Retirada no balcão do Tatu do Bem, apresentando o código da reserva.</li>
+          <li>Retire em até <b>2 horas</b>; depois disso a reserva expira sozinha.</li>
+          <li>Prazo de devolução: <b>${RULES.loanDays} dias</b> após a retirada.</li>
+          <li>Até <b>${RULES.maxActive}</b> reservas/empréstimos ativos por matrícula.</li>
+          <li>Na devolução, o atendente confere a caixa e os componentes.</li>
+        </ul>
+      </div>
+      ${mine ? `<div class="banner ok" style="margin-top:1rem">${ic('check')}<div>Você já ${mine.status==='reservada'?'reservou':'está com'} este jogo. <a href="#/minhas">Ver em Minhas reservas</a></div></div>` : ''}
+      ${!mine && block && a>0 ? `<div class="banner warn" style="margin-top:1rem">${ic('alert')}<div>${block}</div></div>` : ''}
+      ${a===0 ? `<div class="banner info" style="margin-top:1rem">${ic('clock')}<div>Todas as unidades estão reservadas ou emprestadas.${nf ? (nf < now() ? ' A devolução está atrasada, então ainda não há previsão de volta.' : ` Previsão de volta: <b>${fmtDate(nf)}</b>.`) : ''}</div></div>` : ''}
+      <div class="cta-row">
+        ${guest ? `<a class="btn primary" href="#/visitante">Como pegar sem matrícula</a>` :
+          mine ? `<a class="btn primary" href="#/minhas">Ver minha reserva</a>` :
+          `<button class="btn primary" data-act="reserve" data-id="${id}" ${a>0 && !block ? '' : 'disabled'}>${ic('calendar')} ${a>0?'Reservar':'Indisponível'}</button>`}
+        ${guest ? '' : `<button class="btn secondary" data-act="fav" data-id="${id}" aria-pressed="${fav}">${ic('heart')} ${fav?'Nos favoritos':'Favoritar'}</button>`}
+      </div>
+      ${sims.length ? `<h3 style="margin:1.4rem 0 .5rem">Jogos parecidos disponíveis agora</h3><div class="sim-list">${sims.map(s=>`<a href="#/jogo/${s.id}">${miniArt(s)}<div style="flex:1"><b>${esc(s.name)}</b><div class="small muted">${s.genre} · ${s.players} jogadores</div></div>${ic('arrow')}</a>`).join('')}</div>` : ''}
+    </div>
+  </div>`};
+}
+
+function blockReason(u, gid) {
+  const act = activeOf(u.id);
+  if (act.some(isOverdue)) return 'Você tem um empréstimo <b>atrasado</b>. Devolva no balcão para poder reservar de novo.';
+  if (act.some(r=>r.gameId===gid)) return 'Você já tem uma reserva ou empréstimo ativo deste jogo.';
+  if (act.length >= RULES.maxActive) return `Você atingiu o limite de <b>${RULES.maxActive}</b> reservas/empréstimos ativos. Cancele uma reserva ou devolva um jogo para reservar outro. <a href="#/minhas">Minhas reservas</a>`;
+  return null;
+}
+
+/* ---------- fluxo de reserva (H3, H5, H9) ---------- */
+async function doReserve(gid) {
+  load(); sweep();
+  const u = me(), g = game(gid);
+  if (!u || u.role==='visitante') { location.hash = '#/visitante'; return; }
+  const block = blockReason(u, gid);
+  if (block) { await modal({ title:'Não é possível reservar agora', icon:'alert', tone:'warn', body:`<p>${block}</p>`, actions:[{label:'Entendi', value:true, kind:'primary'}] }); return; }
+  if (available(gid) <= 0) return conflictDialog(gid, false);
+  const t = now();
+  const ok = await modal({ title:`Reservar ${esc(g.name)}?`, icon:'calendar', tone:'ok', body:`
+    <p>Ao confirmar, uma unidade fica separada para você.</p>
+    <div class="sum">
+      <div><span>Retirar no balcão até</span><b>${fmtWhen(t + RULES.pickupWindow)}</b></div>
+      <div><span>Prazo do empréstimo</span><b>${RULES.loanDays} dias após a retirada</b></div>
+      <div><span>Suas reservas ativas</span><b>${activeOf(u.id).length + 1} de ${RULES.maxActive}</b></div>
+    </div>
+    <p class="small muted" style="margin-top:.7rem">Se não retirar a tempo, a reserva expira e o jogo volta ao catálogo. Você pode cancelar a qualquer momento em <b>Minhas reservas</b>.</p>`,
+    actions:[{label:'Voltar', value:false, kind:'ghost'}, {label:'Confirmar reserva', value:true, kind:'primary', autofocus:true}] });
+  if (!ok) return;
+
+  // verificação de disponibilidade NO MOMENTO da confirmação
+  load(); sweep();
+  if (S.simConflict) { // simulação: outra pessoa reservou durante a confirmação
+    S.simConflict = false;
+    const other = S.users.find(x => x.id==='9815' && x.id!==u.id) || S.users.find(x => x.role==='aluno' && x.id!==u.id && x.status==='ativa');
+    while (available(gid) > 0) createRes(other.id, gid);
+    save();
+  }
+  if (available(gid) <= 0) return conflictDialog(gid, true);
+  const again = blockReason(u, gid);
+  if (again) { await modal({ title:'Não é possível reservar agora', icon:'alert', tone:'warn', body:`<p>${again}</p>`, actions:[{label:'Entendi', value:true, kind:'primary'}] }); return; }
+  const r = createRes(u.id, gid); save();
+  location.hash = '#/confirmacao/' + r.id;
+}
+function createRes(uid, gid) {
+  const n = ++S.seq, t = now();
+  const r = { id:'r'+n+'_'+Math.random().toString(36).slice(2,6), num:n, userId:uid, gameId:gid, createdAt:t, pickupDeadline:t+RULES.pickupWindow, status:'reservada',
+    code: initials(user(uid).name) + '-' + uid + '-' + String(n).padStart(4,'0') };
+  S.res.push(r); addLog('reserva', r.id, uid); return r;
+}
+async function conflictDialog(gid, justNow) {
+  const g = game(gid), sims = similar(gid);
+  const back = await modal({ title: justNow ? 'Este jogo acabou de ser reservado' : `${esc(g.name)} está indisponível`, icon:'alert', tone:'bad', body:`
+    <p>${justNow ? `Outra pessoa reservou a última unidade de <b>${esc(g.name)}</b> enquanto você confirmava. Sua reserva <b>não</b> foi feita.` : `Todas as unidades de <b>${esc(g.name)}</b> estão reservadas ou emprestadas agora.`}</p>
+    ${sims.length ? `<p style="margin-top:.8rem"><b>Jogos semelhantes disponíveis:</b></p><div class="sim-list">${sims.map(s=>`<a href="#/jogo/${s.id}">${miniArt(s)}<div style="flex:1"><b>${esc(s.name)}</b><div class="small muted">${s.genre} · ${s.players} jogadores · ${s.time}</div></div>${ic('arrow')}</a>`).join('')}</div>` : ''}`,
+    actions:[{label:'Voltar ao catálogo', value:true, kind:'primary'}] });
+  if (back) location.hash = '#/catalogo';
+  render();
+}
+async function doCancel(rid, byAtt=false) {
+  load(); sweep();
+  const r = resv(rid); if (!r || r.status!=='reservada') { render(); return; }
+  const g = game(r.gameId), u = user(r.userId);
+  const ok = await modal({ title:`Cancelar reserva de ${esc(g.name)}?`, icon:'x', tone:'bad', body:`
+    <p>${byAtt ? `A reserva de <b>${esc(u.name)}</b> (${u.id}) será cancelada.` : 'Sua reserva será cancelada'} e o jogo volta a ficar disponível para outras pessoas.</p>
+    <div class="sum"><div><span>Código</span><b>${r.code}</b></div><div><span>Reservado em</span><b>${fmtWhen(r.createdAt)}</b></div></div>`,
+    actions:[{label:'Manter reserva', value:false, kind:'ghost', autofocus:true}, {label:'Cancelar reserva', value:true, kind:'danger'}] });
+  if (!ok) return;
+  load(); const rr = resv(rid); if (rr.status!=='reservada') { render(); return; }
+  rr.status = 'cancelada'; rr.cancelledAt = now(); rr.cancelledBy = me().id; addLog('cancelamento', rid, me().id); save(); render();
+  toast(`Reserva de ${esc(g.name)} cancelada. O jogo voltou ao catálogo.`, { action:{ label:'Desfazer', fn: () => {
+    load(); const x = resv(rid);
+    if (x.status!=='cancelada') return;
+    if (available(x.gameId) <= 0) { toast('Não deu para desfazer: outra pessoa já reservou este jogo.', { bad:true }); return; }
+    if (now() > x.pickupDeadline) { toast('Não deu para desfazer: o prazo de retirada já passou.', { bad:true }); return; }
+    x.status='reservada'; delete x.cancelledAt; S.log = S.log.filter(l => !(l.type==='cancelamento' && l.resId===rid)); save(); render(); toast('Reserva restaurada.');
+  }}});
+}
+
+/* ---------- Confirmação ---------- */
+function viewConfirm(rid) {
+  const r = resv(rid), u = me();
+  if (!r || r.userId !== u.id) return viewNotFound();
+  const g = game(r.gameId), live = r.status==='reservada';
+  return { html:`
+  <div class="card confirm-card">
+    ${live ? `<div class="big-check">${ic('check')}</div><h1>Reserva confirmada!</h1>` : `<div class="big-check" style="background:#ECE7DC;color:#55605A">${ic('info')}</div><h1>Reserva ${STATUS[r.status][1].toLowerCase()}</h1>`}
+    <p class="muted" style="margin-top:.3rem">${esc(g.name)} — 1 unidade · por ${esc(u.name)} (${u.id})</p>
+    <div class="code-box">
+      ${qrSvg(r.code)}
+      <div><span class="small muted" style="font-weight:800">CÓDIGO DA RESERVA</span><div class="code">${r.code}</div><span class="small muted">Mostre este código ou o QR code no balcão.</span></div>
+    </div>
+    <div class="kv">
+      <div>${ic('pin')}<span>Retire no balcão do Tatu do Bem até <b>${fmtWhen(r.pickupDeadline)}</b>${live?` <span class="badge warn">faltam ${fmtLeft(r.pickupDeadline-now())}</span>`:''}</span></div>
+      <div>${ic('calendar')}<span>Prazo: <b>${RULES.loanDays} dias</b> após a retirada (se retirar agora, até ${fmtDate(now()+RULES.loanDays*D)})</span></div>
+      <div>${ic('info')}<span class="muted">Se não retirar até o horário, a reserva expira e o jogo volta ao catálogo.</span></div>
+    </div>
+    <div class="cta-row" style="justify-content:center">
+      <a class="btn primary" href="#/minhas">${ic('list')} Minhas reservas</a>
+      <a class="btn secondary" href="#/catalogo">Voltar ao catálogo</a>
+    </div>
+    ${live ? `<p style="margin-top:1.1rem"><button class="linkbtn" style="color:var(--bad)" data-act="cancel" data-id="${r.id}">Reservei por engano — cancelar reserva</button></p>` : ''}
+  </div>`};
+}
+
+/* ---------- Minhas reservas (H1, H3) ---------- */
+function viewMine() {
+  const u = me();
+  const mine = S.res.filter(r => r.userId===u.id);
+  const active = mine.filter(r=>ACTIVE.includes(r.status)).sort((a,b)=>a.createdAt-b.createdAt);
+  const hist = mine.filter(r=>!ACTIVE.includes(r.status)).sort((a,b)=>(b.returnedAt||b.cancelledAt||b.expiredAt||b.createdAt)-(a.returnedAt||a.cancelledAt||a.expiredAt||a.createdAt));
+  const card = r => {
+    const g = game(r.gameId); let info = '', acts = '';
+    if (r.status==='reservada') {
+      const left = r.pickupDeadline - now(), pct = Math.max(0, Math.min(100, left / RULES.pickupWindow * 100));
+      info = `<p>Retire no balcão até <b>${fmtWhen(r.pickupDeadline)}</b> · faltam <b>${fmtLeft(left)}</b></p><div class="meter ${pct<25?'bad':'warn'}"><i style="width:${pct}%"></i></div><p class="small muted" style="margin-top:.35rem">Código: <b class="mono">${r.code}</b></p>`;
+      acts = `<button class="btn secondary sm" data-act="showCode" data-id="${r.id}">${ic('scan')} Mostrar QR</button><button class="btn danger-ghost sm" data-act="cancel" data-id="${r.id}">Cancelar reserva</button>`;
+    } else if (r.status==='retirada') {
+      const left = r.dueAt - now(), pct = Math.max(0, Math.min(100, left / (RULES.loanDays*D) * 100));
+      info = isOverdue(r) ? `<p style="color:var(--bad)"><b>Atrasado há ${fmtAgo(-left)}.</b> Devolva no balcão o quanto antes.</p><div class="meter bad"><i style="width:100%"></i></div>`
+        : `<p>Devolva até <b>${fmtDate(r.dueAt)}</b> · faltam <b>${fmtLeft(left)}</b></p><div class="meter ${pct<30?'warn':''}"><i style="width:${pct}%"></i></div>`;
+      info += `<p class="small muted" style="margin-top:.35rem">Retirado ${fmtWhen(r.pickedAt)} · Empréstimo #${String(r.num).padStart(4,'0')}</p>`;
+    } else {
+      const when = r.status==='devolvida' ? `Devolvido em ${fmtDate(r.returnedAt)}` : r.status==='cancelada' ? `Cancelada em ${fmtDate(r.cancelledAt)}` : `Expirou em ${fmtDate(r.expiredAt)} (não foi retirada a tempo)`;
+      info = `<p class="small muted">${when}</p>`;
+      const a = available(r.gameId) > 0;
+      acts = `<button class="btn ${a?'secondary':''} sm" data-act="reserve" data-id="${r.gameId}" ${a?'':'disabled'}>${ic('repeat')} ${a?'Reservar novamente':'Indisponível'}</button>`;
+    }
+    return `<article class="card res-card">${miniArt(g)}<div><div class="top"><h3>${esc(g.name)}</h3>${statusBadge(r)}</div>${ACTIVE.includes(r.status)||r.status==='devolvida'||r.status==='expirada'||r.status==='cancelada' ? stepper(r) : ''}${info}</div><div class="acts">${acts}</div></article>`;
+  };
+  const n = active.length;
+  return { html:`
+  <div class="page-head"><div><h1>Minhas reservas</h1><p class="muted">Acompanhe o status, os prazos e o histórico dos seus empréstimos.</p></div></div>
+  <div class="card quota"><div class="quota-dots">${Array.from({length:RULES.maxActive},(_,i)=>`<i class="${i<n?'on':''}"></i>`).join('')}</div><div><b>${n} de ${RULES.maxActive}</b> reservas/empréstimos ativos</div>${n<RULES.maxActive?`<a href="#/catalogo" class="btn primary sm" style="margin-left:auto">Reservar um jogo</a>`:''}</div>
+  <h2 class="section-title">Ativas</h2>
+  <div class="stack">${active.length ? active.map(card).join('') : `<div class="card empty">${ic('dice')}<h3>Nenhuma reserva ativa</h3><p>Que tal escolher um jogo para o fim de semana?</p><a class="btn primary" href="#/catalogo" style="margin-top:1rem">Ver catálogo</a></div>`}</div>
+  <h2 class="section-title">Histórico</h2>
+  <div class="stack">${hist.length ? hist.map(card).join('') : `<p class="muted">Seu histórico aparecerá aqui.</p>`}</div>`};
+}
+function showCode(rid) {
+  const r = resv(rid), g = game(r.gameId);
+  modal({ title:`Código da reserva — ${esc(g.name)}`, icon:'scan', tone:'ok', body:`<div style="text-align:center">${qrSvg(r.code).replace('class="qr"','class="qr" style="width:200px;height:200px"')}<div class="code" style="font-size:1.5rem;font-weight:800;margin-top:.6rem">${r.code}</div><p class="muted small">Retire até ${fmtWhen(r.pickupDeadline)}</p></div>`, actions:[{label:'Fechar', value:true, kind:'primary'}] });
+}
+
+/* =====================================================================
+   TELAS DO ATENDENTE
+   ===================================================================== */
+function attCounts() {
+  const reservadas = S.res.filter(r=>r.status==='reservada');
+  const loans = S.res.filter(r=>r.status==='retirada');
+  return { reservadas, loans, overdue: loans.filter(isOverdue), soon: reservadas.filter(r => r.pickupDeadline - now() < 30*MIN) };
+}
+function personCell(r) { const u = user(r.userId); return `<div class="who"><b>${esc(u.name)}</b><span>${u.id} · ${u.role}</span></div>`; }
+
+function viewAttHome() {
+  const c = attCounts(), u = me();
+  return { html:`
+  <div class="page-head"><div><h1>Olá, ${esc(u.name.split(' ')[0])}</h1><p class="muted">${new Date(now()).toLocaleDateString('pt-BR',{weekday:'long', day:'numeric', month:'long'})} · ${fmtTime(now())}</p></div></div>
+  <div class="stats">
+    <a class="card stat" href="#/atendente/reservas"><span class="lbl">${ic('calendar')} Reservas ativas</span><span class="num">${c.reservadas.length}</span><span class="small muted">${c.soon.length ? `${c.soon.length} expira(m) em menos de 30 min` : 'aguardando retirada'}</span></a>
+    <a class="card stat" href="#/atendente/emprestimos"><span class="lbl">${ic('layers')} Empréstimos em curso</span><span class="num">${c.loans.length}</span><span class="small muted">jogos fora do Tatu</span></a>
+    <a class="card stat ${c.overdue.length?'alert':''}" href="#/atendente/emprestimos?f=atraso"><span class="lbl">${ic('alert')} Atrasos</span><span class="num">${c.overdue.length}</span><span class="small">${c.overdue.length?'precisam de contato':'nenhum atraso'}</span></a>
+    <a class="card stat" href="#/atendente/jogos"><span class="lbl">${ic('dice')} Jogos disponíveis</span><span class="num">${S.games.filter(g=>available(g.id)>0).length}<span style="font-size:1rem;color:var(--muted)">/${S.games.length}</span></span><span class="small muted">títulos no acervo</span></a>
+  </div>
+  <h2 style="margin-bottom:.8rem">Ações rápidas</h2>
+  <div class="quick">
+    <a class="card qa" href="#/atendente/retirada"><span class="ic">${ic('scan')}</span><div><h3>Confirmar retirada</h3><p class="small muted">Ler QR code ou buscar por matrícula, nome ou jogo</p></div></a>
+    <a class="card qa" href="#/atendente/devolucoes"><span class="ic">${ic('undo')}</span><div><h3>Registrar devolução</h3><p class="small muted">Conferir caixa e componentes</p></div></a>
+  </div>
+  ${c.overdue.length || c.soon.length ? `<h2 style="margin:1.6rem 0 .8rem">Precisa de atenção</h2><div class="card table-wrap"><table class="tbl responsive"><thead><tr><th>Situação</th><th>Jogo</th><th>Pessoa</th><th></th></tr></thead><tbody>
+    ${c.overdue.map(r=>`<tr class="overdue"><td>${statusBadge(r)} <span class="small">${fmtAgo(now()-r.dueAt)}</span></td><td><b>${esc(game(r.gameId).name)}</b></td><td>${personCell(r)}</td><td class="act"><a class="btn secondary sm" href="#/atendente/devolucao/${r.id}">Registrar devolução</a></td></tr>`).join('')}
+    ${c.soon.map(r=>`<tr class="hl"><td><span class="badge warn">${ic('clock')} expira em ${fmtLeft(r.pickupDeadline-now())}</span></td><td><b>${esc(game(r.gameId).name)}</b></td><td>${personCell(r)}</td><td class="act"><button class="btn primary sm" data-act="pickup" data-id="${r.id}">Confirmar retirada</button></td></tr>`).join('')}
+  </tbody></table></div>` : ''}`};
+}
+
+let attQ = '';
+function matchQ(r, q) { if (!q) return true; const u = user(r.userId), g = game(r.gameId); return norm([u.name,u.id,g.name,r.code,'#'+String(r.num).padStart(4,'0')].join(' ')).includes(norm(q)); }
+function searchBar(placeholder, withQr) {
+  return `<div class="toolbar"><label class="search">${ic('search')}<span class="sr-only">Buscar</span><input id="aq" type="search" value="${esc(attQ)}" placeholder="${placeholder}" autocomplete="off"><kbd>/</kbd></label>${withQr?`<button class="btn primary" data-act="qr">${ic('scan')} Ler QR code</button>`:''}</div>`;
+}
+function bindSearch(renderFn) { const i = document.getElementById('aq'); if (!i) return; i.oninput = () => { attQ = i.value; renderFn(); }; renderFn(); }
+
+function viewAttPickup() {
+  return { html:`
+  <a class="back" href="#/atendente">${ic('back')} Painel</a>
+  <div class="page-head"><div><h1>Confirmar retirada</h1><p class="muted">Leia o QR code da reserva ou busque por matrícula, nome, jogo ou código.</p></div></div>
+  ${searchBar('Matrícula, nome, jogo ou código (ex.: PS-9801-0120)', true)}
+  <div id="alist"></div>`,
+  mount() { bindSearch(() => {
+    const rows = S.res.filter(r=>r.status==='reservada' && matchQ(r, attQ)).sort((a,b)=>a.pickupDeadline-b.pickupDeadline);
+    document.getElementById('alist').innerHTML = rows.length ? `<div class="card table-wrap"><table class="tbl responsive"><thead><tr><th>Jogo</th><th>Pessoa</th><th>Código</th><th>Retirar até</th><th></th></tr></thead><tbody>
+      ${rows.map(r=>`<tr class="${r.pickupDeadline-now()<30*MIN?'hl':''}"><td><b>${esc(game(r.gameId).name)}</b></td><td>${personCell(r)}</td><td data-l="Código" class="mono">${r.code}</td><td data-l="Até">${fmtWhen(r.pickupDeadline)} <span class="badge ${r.pickupDeadline-now()<30*MIN?'bad':'warn'}">${fmtLeft(r.pickupDeadline-now())}</span></td><td class="act" style="text-align:right"><button class="btn primary sm" data-act="pickup" data-id="${r.id}">Confirmar retirada</button></td></tr>`).join('')}
+      </tbody></table></div>` : `<div class="card empty">${ic('search')}<h3>${attQ?'Nenhuma reserva encontrada':'Nenhuma reserva aguardando retirada'}</h3><p>${attQ?'Confira a matrícula ou o código. Reservas expiradas ou canceladas não aparecem aqui.':'Quando alguém reservar, aparece aqui.'}</p></div>`;
+  }); }};
+}
+async function doPickup(rid) {
+  load(); sweep();
+  const r = resv(rid);
+  if (!r || r.status!=='reservada') { await modal({ title:'Reserva não está mais ativa', icon:'alert', tone:'bad', body:`<p>${r ? `Esta reserva está <b>${STATUS[r.status][1].toLowerCase()}</b>. Se a pessoa ainda quiser o jogo e ele estiver disponível, ela pode reservar de novo ou você registra o empréstimo no balcão.` : 'Código não encontrado.'}</p>`, actions:[{label:'Entendi', value:true, kind:'primary'}] }); render(); return; }
+  const u = user(r.userId), g = game(r.gameId);
+  const ok = await modal({ title:'Confirmar retirada?', icon:'box', tone:'ok', body:`
+    <p>Entregue o jogo e confira a matrícula de quem está retirando.</p>
+    <div class="sum"><div><span>Jogo</span><b>${esc(g.name)}</b></div><div><span>Pessoa</span><b>${esc(u.name)} (${u.id})</b></div><div><span>Código</span><b>${r.code}</b></div><div><span>Devolver até</span><b>${fmtDate(now()+RULES.loanDays*D)}</b></div></div>`,
+    actions:[{label:'Voltar', value:false, kind:'ghost'}, {label:'Confirmar retirada', value:true, kind:'primary', autofocus:true}] });
+  if (!ok) return;
+  load(); const x = resv(rid); if (x.status!=='reservada') { render(); return; }
+  x.status='retirada'; x.pickedAt=now(); x.dueAt=x.pickedAt+RULES.loanDays*D; addLog('retirada', rid, me().id); save(); render();
+  toast(`Retirada de ${esc(g.name)} confirmada para ${esc(u.name.split(' ')[0])}.`, { action:{ label:'Desfazer', fn:() => { load(); const y = resv(rid); if (y.status!=='retirada') return; y.status='reservada'; delete y.pickedAt; delete y.dueAt; S.log = S.log.filter(l=>!(l.type==='retirada'&&l.resId===rid)); save(); render(); toast('Retirada desfeita.'); } } });
+}
+function openQr() {
+  const pend = S.res.filter(r=>r.status==='reservada');
+  modal({ title:'Ler QR code da reserva', icon:'scan', tone:'ok', wide:true, actions:[{label:'Fechar', value:null, kind:'ghost'}], body:`
+    <div class="scanner"><div class="frame"></div><div class="line"></div><span style="position:relative;top:70px">Aponte a câmera para o QR code</span></div>
+    <p class="small muted" style="margin-top:.8rem"><b>Simulação do protótipo:</b> toque em uma reserva abaixo como se tivesse lido o QR, ou digite o código.</p>
+    <div class="sim-list">${pend.length ? pend.map(r=>`<button type="button" data-read="${r.id}">${miniArt(game(r.gameId))}<div style="flex:1"><b class="mono">${r.code}</b><div class="small muted">${esc(game(r.gameId).name)} · ${esc(user(r.userId).name)}</div></div>${ic('scan')}</button>`).join('') : '<p class="muted">Nenhuma reserva pendente.</p>'}</div>
+    <div class="field" style="margin-top:1rem"><label for="mcode">Ou digite o código</label><div style="display:flex;gap:.5rem"><div class="input" style="flex:1"><input id="mcode" placeholder="PS-9801-0120" autocomplete="off"></div><button type="button" class="btn primary" id="mgo">Buscar</button></div><span class="err" id="merr" hidden>${ic('alert')}Código não encontrado entre as reservas ativas.</span></div>`,
+    onMount: d => {
+      d.querySelectorAll('[data-read]').forEach(b => b.onclick = () => { d.close(); doPickup(b.dataset.read); });
+      const go = () => { const v = d.querySelector('#mcode').value.trim().toUpperCase(); const r = S.res.find(x => x.code.toUpperCase()===v); if (!r) { d.querySelector('#merr').hidden=false; return; } d.close(); doPickup(r.id); };
+      d.querySelector('#mgo').onclick = go; d.querySelector('#mcode').onkeydown = e => { if (e.key==='Enter') { e.preventDefault(); go(); } };
+    } });
+}
+
+function viewAttReturns() {
+  return { html:`
+  <a class="back" href="#/atendente">${ic('back')} Painel</a>
+  <div class="page-head"><div><h1>Registrar devolução</h1><p class="muted">Escolha o empréstimo que está sendo devolvido.</p></div></div>
+  ${searchBar('Matrícula, nome, jogo ou nº do empréstimo', false)}
+  <div id="alist"></div>`,
+  mount() { bindSearch(() => {
+    const rows = S.res.filter(r=>r.status==='retirada' && matchQ(r, attQ)).sort((a,b)=>a.dueAt-b.dueAt);
+    document.getElementById('alist').innerHTML = rows.length ? `<div class="card table-wrap"><table class="tbl responsive"><thead><tr><th>Jogo</th><th>Pessoa</th><th>Empréstimo</th><th>Devolver até</th><th></th></tr></thead><tbody>
+      ${rows.map(r=>`<tr class="${isOverdue(r)?'overdue':''}"><td><b>${esc(game(r.gameId).name)}</b></td><td>${personCell(r)}</td><td data-l="Nº" class="mono">#${String(r.num).padStart(4,'0')}</td><td data-l="Até">${fmtDate(r.dueAt)} ${isOverdue(r)?`<span class="badge bad">${fmtAgo(now()-r.dueAt)} de atraso</span>`:''}</td><td class="act" style="text-align:right"><a class="btn primary sm" href="#/atendente/devolucao/${r.id}">Registrar devolução</a></td></tr>`).join('')}
+      </tbody></table></div>` : `<div class="card empty">${ic('search')}<h3>Nenhum empréstimo encontrado</h3><p>Confira a matrícula ou o nome do jogo.</p></div>`;
+  }); }};
+}
+
+function viewAttReturnForm(rid) {
+  const r = resv(rid); if (!r) return viewNotFound();
+  const g = game(r.gameId), u = user(r.userId);
+  if (r.status !== 'retirada') return { html:`<a class="back" href="#/atendente/devolucoes">${ic('back')} Voltar</a><div class="card empty">${ic('info')}<h3>Este empréstimo não está em aberto</h3><p>Status atual: ${statusBadge(r,true)}</p><a class="btn secondary" style="margin-top:1rem" href="#/atendente/registro">Ver registro</a></div>` };
+  return { html:`
+  <a class="back" href="#/atendente/devolucoes">${ic('back')} Voltar</a>
+  <div class="page-head"><div><h1 style="display:flex;gap:.5rem;align-items:center">${ic('box')} Registrar devolução</h1></div></div>
+  <form class="card" id="retForm" style="max-width:640px" novalidate>
+    <div class="ret-head">${miniArt(g)}<div><h2>${esc(g.name)}</h2><p class="muted small">Matrícula: <b>${u.id}</b> · ${esc(u.name)}</p><p class="muted small">Empréstimo: <b class="mono">#${String(r.num).padStart(4,'0')}</b> · retirado em ${fmtDate(r.pickedAt)}</p>
+      <p style="margin-top:.3rem">${isOverdue(r) ? `<span class="badge bad">${ic('alert')} ${fmtAgo(now()-r.dueAt)} de atraso</span>` : `<span class="badge ok">No prazo · até ${fmtDate(r.dueAt)}</span>`}</p></div></div>
+    <fieldset class="checklist" style="border:0;margin:0">
+      <legend style="font-weight:800;display:flex;gap:.45rem;align-items:center;padding:0;margin-bottom:.3rem">${ic('check')} Verificação</legend>
+      <label class="check"><input type="checkbox" id="cBox"> Caixa em bom estado</label>
+      <label class="check"><input type="checkbox" id="cParts"> Todos os componentes</label>
+      <label class="check"><input type="checkbox" id="cObs"> Adicionar observação</label>
+      <div id="obsWrap" hidden><textarea class="ta" id="obs" placeholder="Ex.: faltando 2 cartas de influência; canto da caixa amassado…"></textarea><span class="err" id="obsErr" hidden>${ic('alert')}Descreva o problema encontrado para registrar a devolução.</span></div>
+      <p class="hint" id="obsHint" style="margin-top:.3rem">Se algum item não estiver ok, descreva o problema na observação.</p>
+      <div class="cta-row"><button class="btn primary" type="submit">${ic('check')} Registrar devolução</button><a class="btn ghost" href="#/atendente/devolucoes">Cancelar</a></div>
+    </fieldset>
+  </form>`,
+  mount() {
+    const f = document.getElementById('retForm'), box = f.querySelector('#cBox'), parts = f.querySelector('#cParts'), cObs = f.querySelector('#cObs'), wrap = f.querySelector('#obsWrap'), obs = f.querySelector('#obs');
+    const sync = () => { const need = !box.checked || !parts.checked; if (need && !cObs.checked && (box.dataset.touched || parts.dataset.touched)) cObs.checked = true; wrap.hidden = !cObs.checked; };
+    [box, parts].forEach(c => c.onchange = () => { c.dataset.touched = 1; sync(); });
+    cObs.onchange = sync;
+    f.onsubmit = async ev => {
+      ev.preventDefault();
+      const problem = !box.checked || !parts.checked, text = obs.value.trim();
+      if (problem && !text) { cObs.checked = true; wrap.hidden = false; obs.classList.add('invalid'); f.querySelector('#obsErr').hidden = false; obs.focus(); return; }
+      const ok = await modal({ title:'Registrar devolução?', icon:'undo', tone: problem?'warn':'ok', body:`
+        <div class="sum"><div><span>Jogo</span><b>${esc(g.name)}</b></div><div><span>Pessoa</span><b>${esc(u.name)} (${u.id})</b></div>
+        <div><span>Caixa em bom estado</span><b>${box.checked?'Sim':'Não'}</b></div><div><span>Todos os componentes</span><b>${parts.checked?'Sim':'Não'}</b></div>${text?`<div><span>Observação</span><b style="text-align:right">${esc(text)}</b></div>`:''}</div>
+        ${problem?'<p class="small" style="margin-top:.7rem;color:var(--warn)"><b>Atenção:</b> a devolução será registrada com pendência.</p>':''}`,
+        actions:[{label:'Voltar', value:false, kind:'ghost'}, {label:'Registrar devolução', value:true, kind:'primary', autofocus:true}] });
+      if (!ok) return;
+      load(); const x = resv(rid); if (x.status!=='retirada') { render(); return; }
+      x.status='devolvida'; x.returnedAt=now(); x.check={ box:box.checked, parts:parts.checked, obs:text }; addLog('devolucao', rid, me().id); save();
+      location.hash = '#/atendente/devolucoes';
+      toast(`Devolução de ${esc(g.name)} registrada.`, { action:{ label:'Desfazer', fn:() => undoReturn(rid, true) } });
+    };
+  }};
+}
+function undoReturn(rid, quiet) {
+  load(); const y = resv(rid); if (y.status!=='devolvida') return;
+  y.status='retirada'; delete y.returnedAt; delete y.check; addLog('estorno', rid, me().id); save(); render(); toast(quiet ? 'Devolução desfeita.' : 'Devolução estornada. O empréstimo voltou a ficar em aberto.');
+}
+async function doReversal(rid) {
+  const r = resv(rid), g = game(r.gameId), u = user(r.userId);
+  const ok = await modal({ title:'Estornar devolução?', icon:'undo', tone:'warn', body:`<p>A devolução de <b>${esc(g.name)}</b> por <b>${esc(u.name)}</b> será desfeita e o empréstimo volta a ficar em aberto. Use quando a devolução foi registrada por engano.</p>`,
+    actions:[{label:'Voltar', value:false, kind:'ghost'}, {label:'Estornar', value:true, kind:'danger'}] });
+  if (ok) undoReturn(rid);
+}
+
+function viewAttRes() {
+  return { html:`
+  <div class="page-head"><div><h1>Reservas ativas</h1><p class="muted">Reservas aguardando retirada. Expiram sozinhas 2h após serem feitas.</p></div></div>
+  ${searchBar('Matrícula, nome, jogo ou código', true)}
+  <div id="alist"></div>`,
+  mount() { bindSearch(() => {
+    const rows = S.res.filter(r=>r.status==='reservada' && matchQ(r, attQ)).sort((a,b)=>a.pickupDeadline-b.pickupDeadline);
+    document.getElementById('alist').innerHTML = rows.length ? `<div class="card table-wrap"><table class="tbl responsive"><thead><tr><th>Jogo</th><th>Pessoa</th><th>Código</th><th>Expira</th><th></th></tr></thead><tbody>
+      ${rows.map(r=>`<tr><td><b>${esc(game(r.gameId).name)}</b></td><td>${personCell(r)}</td><td data-l="Código" class="mono">${r.code}</td><td data-l="Expira"><span class="badge warn">${fmtLeft(r.pickupDeadline-now())}</span></td><td class="act" style="text-align:right;white-space:nowrap"><button class="btn primary sm" data-act="pickup" data-id="${r.id}">Confirmar retirada</button> <button class="btn danger-ghost sm" data-act="cancelAtt" data-id="${r.id}">Cancelar</button></td></tr>`).join('')}
+      </tbody></table></div>` : `<div class="card empty">${ic('calendar')}<h3>Nenhuma reserva ativa</h3></div>`;
+  }); }};
+}
+function viewAttLoans(params) {
+  const onlyLate = params.get('f')==='atraso';
+  return { html:`
+  <div class="page-head"><div><h1>Empréstimos e prazos</h1><p class="muted">Jogos que estão com usuários. Atrasados aparecem primeiro.</p></div>
+    <div class="pills"><a class="pill" href="#/atendente/emprestimos" aria-pressed="${!onlyLate}">Todos</a><a class="pill" href="#/atendente/emprestimos?f=atraso" aria-pressed="${onlyLate}">Só atrasados</a></div></div>
+  ${searchBar('Matrícula, nome, jogo ou nº do empréstimo', false)}
+  <div id="alist"></div>`,
+  mount() { bindSearch(() => {
+    const rows = S.res.filter(r=>r.status==='retirada' && (!onlyLate || isOverdue(r)) && matchQ(r, attQ)).sort((a,b)=>a.dueAt-b.dueAt);
+    document.getElementById('alist').innerHTML = rows.length ? `<div class="card table-wrap"><table class="tbl responsive"><thead><tr><th>Jogo</th><th>Pessoa</th><th>Retirado</th><th>Devolver até</th><th>Situação</th><th></th></tr></thead><tbody>
+      ${rows.map(r=>`<tr class="${isOverdue(r)?'overdue':''}"><td><b>${esc(game(r.gameId).name)}</b><div class="small muted mono">#${String(r.num).padStart(4,'0')}</div></td><td>${personCell(r)}</td><td data-l="Retirado">${fmtDate(r.pickedAt)}</td><td data-l="Até">${fmtDate(r.dueAt)}</td><td>${isOverdue(r)?`<span class="badge bad">${fmtAgo(now()-r.dueAt)} de atraso</span>`:`<span class="badge info">faltam ${fmtLeft(r.dueAt-now())}</span>`}</td><td class="act" style="text-align:right"><a class="btn secondary sm" href="#/atendente/devolucao/${r.id}">Registrar devolução</a></td></tr>`).join('')}
+      </tbody></table></div>` : `<div class="card empty">${ic('check')}<h3>${onlyLate?'Nenhum atraso':'Nenhum empréstimo encontrado'}</h3></div>`;
+  }); }};
+}
+function viewAttGames() {
+  return { html:`
+  <div class="page-head"><div><h1>Jogos</h1><p class="muted">Acervo do Tatu do Bem e situação de cada título.</p></div></div>
+  <div class="card table-wrap"><table class="tbl responsive"><thead><tr><th>Jogo</th><th>Gênero</th><th>Unidades</th><th>Reservadas</th><th>Emprestadas</th><th>Disponíveis</th></tr></thead><tbody>
+  ${S.games.map(g => { const rs = S.res.filter(r=>r.gameId===g.id); const a = available(g.id); return `<tr><td><div style="display:flex;gap:.6rem;align-items:center">${miniArt(g).replace('class="mini-art"','class="mini-art" style="width:36px;height:36px;font-size:.75rem;background:linear-gradient(135deg, '+g.c+', '+shade(g.c,-28)+')"')}<b>${esc(g.name)}</b></div></td><td data-l="Gênero">${g.genre}</td><td data-l="Unid.">${g.units}</td><td data-l="Reserv.">${rs.filter(r=>r.status==='reservada').length}</td><td data-l="Emprest.">${rs.filter(r=>r.status==='retirada').length}</td><td>${a>0?`<span class="badge ok">${a}</span>`:'<span class="badge bad">0</span>'}</td></tr>`; }).join('')}
+  </tbody></table></div>`};
+}
+const LOGT = { reserva:['info','Reserva'], cancelamento:['neutral','Cancelamento'], retirada:['warn','Retirada'], devolucao:['ok','Devolução'], expiracao:['neutral','Expiração'], estorno:['bad','Estorno'] };
+function viewAttLog() {
+  return { html:`
+  <div class="page-head"><div><h1>Registro</h1><p class="muted">Histórico de tudo o que aconteceu — substitui o caderno. Devoluções registradas por engano podem ser estornadas.</p></div></div>
+  ${searchBar('Matrícula, nome, jogo ou código', false)}
+  <div id="alist"></div>`,
+  mount() { bindSearch(() => {
+    const rows = S.log.filter(l => { const r = resv(l.resId); return r && matchQ(r, attQ); }).sort((a,b)=>b.t-a.t).slice(0,80);
+    document.getElementById('alist').innerHTML = rows.length ? `<div class="card table-wrap"><table class="tbl responsive"><thead><tr><th>Quando</th><th>Evento</th><th>Jogo</th><th>Pessoa</th><th>Detalhes</th><th></th></tr></thead><tbody>
+      ${rows.map(l => { const r = resv(l.resId), [k,t] = LOGT[l.type]; const lastDev = l.type==='devolucao' && r.status==='devolvida' && r.returnedAt===l.t;
+        const by = l.by==='sistema' ? 'automático' : l.by===r.userId ? 'pelo usuário' : 'por ' + esc(user(l.by)?.name.split(' ')[0]||l.by);
+        const det = l.type==='devolucao' && r.check && l.t===r.returnedAt ? (r.check.box && r.check.parts ? 'Conferido sem problemas' : `<span style="color:var(--warn)">Com pendência</span>`) + (r.check.obs ? `: ${esc(r.check.obs)}` : '') : by;
+        return `<tr><td data-l="Quando">${fmtDate(l.t)} ${fmtTime(l.t)}</td><td><span class="badge ${k}">${t}</span></td><td data-l="Jogo"><b>${esc(game(r.gameId).name)}</b></td><td>${personCell(r)}</td><td data-l="Detalhes" class="small">${det}</td><td class="act" style="text-align:right">${lastDev?`<button class="btn danger-ghost sm" data-act="reversal" data-id="${r.id}">${ic('undo')} Estornar</button>`:''}</td></tr>`; }).join('')}
+      </tbody></table></div>` : `<div class="card empty">${ic('log')}<h3>Nada encontrado</h3></div>`;
+  }); }};
+}
+function viewNotFound() { return { html:`<div class="card empty">${ic('alert')}<h3>Página não encontrada</h3><p>O endereço pode estar errado ou o item não existe mais.</p><a class="btn primary" style="margin-top:1rem" href="#/">Ir para o início</a></div>` }; }
+
+/* =====================================================================
+   LAYOUTS
+   ===================================================================== */
+function userLayout(content, route) {
+  const u = me(), guest = u.role==='visitante';
+  const n = guest ? 0 : activeOf(u.id).length, late = guest ? false : activeOf(u.id).some(isOverdue);
+  const cnt = n ? `<span class="count" style="${late?'background:var(--bad)':''}" aria-label="${n} ativas">${n}</span>` : '';
+  const a = (r, href, icon, label, extra='') => `<a href="${href}" class="${route===r?'active':''}" ${route===r?'aria-current="page"':''}>${ic(icon)}<span>${label}</span>${extra}</a>`;
+  return `
+  <header class="topbar"><div class="topbar-in">
+    <a class="brand" href="#/catalogo">${logo()}<div>TaTu Jogos<small>Tatu do Bem · UFV</small></div></a>
+    <nav class="topnav" aria-label="Principal">${a('catalogo','#/catalogo','dice','Catálogo')}${guest?'':a('minhas','#/minhas','list','Minhas reservas',cnt)}</nav>
+    <div class="top-right">
+      <button class="iconbtn" data-act="help" aria-label="Ajuda" title="Ajuda">${ic('help')}</button>
+      <div class="userchip"><span class="avatar">${guest?'?':initials(u.name)}</span><div class="meta"><b>${esc(u.name)}</b><span>${guest?'sem matrícula':u.role+' · '+u.id}</span></div></div>
+      <button class="iconbtn" data-act="logout" aria-label="Sair" title="Sair">${ic('logout')}</button>
+    </div>
+  </div></header>
+  <main class="container" id="main">${content}</main>
+  <nav class="bottomnav" aria-label="Principal (celular)">${a('catalogo','#/catalogo','dice','Catálogo')}${guest?'':a('minhas','#/minhas','list','Reservas',cnt)}<button data-act="help">${ic('help')}<span>Ajuda</span></button><button data-act="logout">${ic('logout')}<span>Sair</span></button></nav>`;
+}
+function attLayout(content, route) {
+  const u = me(), c = attCounts();
+  const a = (r, href, icon, label, extra='') => `<a href="${href}" class="${route===r?'active':''}" ${route===r?'aria-current="page"':''}>${ic(icon)}<span>${label}</span>${extra}</a>`;
+  return `
+  <header class="topbar"><div class="topbar-in" style="max-width:1240px">
+    <a class="brand" href="#/atendente">${logo()}<div>Painel do Atendente<small>TaTu Jogos · Tatu do Bem</small></div></a>
+    <div class="top-right">
+      <button class="iconbtn" data-act="help" aria-label="Ajuda" title="Regras do empréstimo">${ic('help')}</button>
+      <div class="userchip"><span class="avatar">${initials(u.name)}</span><div class="meta"><b>${esc(u.name)}</b><span>atendente</span></div></div>
+      <button class="iconbtn" data-act="logout" aria-label="Sair" title="Sair">${ic('logout')}</button>
+    </div>
+  </div></header>
+  <div class="att">
+    <nav class="sidebar" aria-label="Painel">
+      ${a('home','#/atendente','home','Início')}
+      ${a('reservas','#/atendente/reservas','calendar','Reservas', c.reservadas.length?`<span class="count" style="background:var(--pri)">${c.reservadas.length}</span>`:'')}
+      ${a('emprestimos','#/atendente/emprestimos','layers','Empréstimos', c.overdue.length?`<span class="count" style="background:var(--bad)" title="atrasados">${c.overdue.length}</span>`:'')}
+      ${a('devolucoes','#/atendente/devolucoes','undo','Devoluções')}
+      ${a('jogos','#/atendente/jogos','dice','Jogos')}
+      ${a('registro','#/atendente/registro','log','Registro')}
+    </nav>
+    <main id="main">${content}</main>
+  </div>`;
+}
+
+/* =====================================================================
+   ROTEADOR
+   ===================================================================== */
+const routes = [
+  [/^\/login$/, () => viewLogin(), 'public'],
+  [/^\/esqueci$/, () => viewForgot(), 'public'],
+  [/^\/visitante$/, () => viewVisitor(), 'public'],
+  [/^\/catalogo$/, () => viewCatalog(), 'user', 'catalogo'],
+  [/^\/jogo\/([\w-]+)$/, m => viewGame(m[1]), 'user', 'catalogo'],
+  [/^\/confirmacao\/([\w-]+)$/, m => viewConfirm(m[1]), 'member', 'minhas'],
+  [/^\/minhas$/, () => viewMine(), 'member', 'minhas'],
+  [/^\/atendente$/, () => viewAttHome(), 'att', 'home'],
+  [/^\/atendente\/retirada$/, () => viewAttPickup(), 'att', 'reservas'],
+  [/^\/atendente\/reservas$/, () => viewAttRes(), 'att', 'reservas'],
+  [/^\/atendente\/emprestimos$/, (m,p) => viewAttLoans(p), 'att', 'emprestimos'],
+  [/^\/atendente\/devolucoes$/, () => viewAttReturns(), 'att', 'devolucoes'],
+  [/^\/atendente\/devolucao\/([\w-]+)$/, m => viewAttReturnForm(m[1]), 'att', 'devolucoes'],
+  [/^\/atendente\/jogos$/, () => viewAttGames(), 'att', 'jogos'],
+  [/^\/atendente\/registro$/, () => viewAttLog(), 'att', 'registro'],
+];
+let lastPath = '';
+function render() {
+  load(); sweep();
+  const raw = (location.hash || '#/').slice(1), [path, qs] = raw.split('?'), params = new URLSearchParams(qs||'');
+  const u = me();
+  const home = !u ? '/login' : u.role==='atendente' ? '/atendente' : '/catalogo';
+  if (path === '/' || path === '') { location.replace('#' + home); return; }
+  const hit = routes.find(([re]) => re.test(path));
+  if (!hit) { location.replace('#' + home); return; }
+  const [re, fn, access, nav] = hit;
+  if (access==='public' && u && u.role!=='visitante') { location.replace('#' + home); return; }
+  if (access!=='public' && !u) { location.replace('#/login'); return; }
+  if (access==='att' && u.role!=='atendente') { location.replace('#' + home); return; }
+  if ((access==='user'||access==='member') && u.role==='atendente') { location.replace('#/atendente'); return; }
+  if (access==='member' && u.role==='visitante') { location.replace('#/visitante'); return; }
+  if (path !== lastPath) { attQ = ''; }
+  const v = fn(path.match(re), params);
+  const app = document.getElementById('app');
+  const y = path === lastPath ? window.scrollY : 0;
+  app.innerHTML = (v.full ? v.html : (access==='att' ? attLayout(v.html, nav) : userLayout(v.html, nav)))
+    + `<button class="demo-fab" data-act="demo" title="Ferramentas para demonstrar o protótipo">${ic('sliders')} Protótipo${S.clockOffset?` <span class="clock-pill">${fmtDate(now())} ${fmtTime(now())}</span>`:''}</button>`;
+  v.mount && v.mount();
+  window.scrollTo(0, y);
+  lastPath = path;
+  const titles = { catalogo:'Catálogo', minhas:'Minhas reservas', home:'Painel', reservas:'Reservas', emprestimos:'Empréstimos', devolucoes:'Devoluções', jogos:'Jogos', registro:'Registro' };
+  document.title = (nav ? titles[nav] + ' · ' : '') + 'TaTu Jogos';
+}
+
+/* ---------------- ações globais (delegação) ---------------- */
+document.addEventListener('click', e => {
+  const el = e.target.closest('[data-act]'); if (!el || el.disabled) return;
+  const id = el.dataset.id, act = el.dataset.act;
+  if (act !== 'logout' || el.tagName === 'BUTTON') e.preventDefault();
+  switch (act) {
+    case 'help': openHelp(); break;
+    case 'demo': openDemo(); break;
+    case 'logout': sessionStorage.removeItem('tatu-session'); ui = { q:'', filter:'todos', genre:'' }; location.hash = '#/login'; break;
+    case 'filter': ui.filter = el.dataset.v; document.querySelectorAll('[data-act="filter"]').forEach(p => p.setAttribute('aria-pressed', p.dataset.v===ui.filter)); renderList(); break;
+    case 'clearFilters': ui = { q:'', filter:'todos', genre:'' }; render(); break;
+    case 'fav': { load(); const u = user(me().id); u.favs = u.favs||[]; const on = u.favs.includes(id); u.favs = on ? u.favs.filter(x=>x!==id) : [...u.favs, id]; save(); render(); toast(on ? `${esc(game(id).name)} removido dos favoritos.` : `${esc(game(id).name)} adicionado aos favoritos.`); break; }
+    case 'reserve': doReserve(id); break;
+    case 'cancel': doCancel(id); break;
+    case 'cancelAtt': doCancel(id, true); break;
+    case 'showCode': showCode(id); break;
+    case 'pickup': doPickup(id); break;
+    case 'qr': openQr(); break;
+    case 'reversal': doReversal(id); break;
+  }
+});
+document.addEventListener('keydown', e => { // atalho "/" para buscar (H7)
+  if (e.key === '/' && !/INPUT|TEXTAREA|SELECT/.test(document.activeElement.tagName) && !dlg.open) {
+    const q = document.getElementById('q') || document.getElementById('aq'); if (q) { e.preventDefault(); q.focus(); }
+  }
+});
+window.addEventListener('hashchange', render);
+window.addEventListener('storage', e => { // sincroniza entre abas (concorrência real)
+  if (e.key !== KEY || dlg.open) return;
+  if (/INPUT|TEXTAREA/.test(document.activeElement.tagName)) { load(); if (document.getElementById('list')) renderList(); return; }
+  render();
+});
+setInterval(() => { if (!dlg.open && !/INPUT|TEXTAREA|SELECT/.test(document.activeElement.tagName)) render(); }, 30000); // atualiza contagens
+render();
+</script>
+</body>
+</html>
