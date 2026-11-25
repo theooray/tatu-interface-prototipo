@@ -8,15 +8,19 @@
 <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@500;600;700;800&display=swap" rel="stylesheet">
 <style>
 :root{
-  --bg:#F5F1E8; --surface:#FFFFFF; --surface-2:#FBF8F2; --ink:#1F2A24; --muted:#5C6A62; --line:#E4DCCB;
-  --pri:#1E6B52; --pri-dark:#154F3C; --pri-soft:#E2F0E9;
-  --acc:#D98A1E; --acc-soft:#FBEBD0;
-  --ok:#1C7A4C; --ok-soft:#E0F3E7;
-  --warn:#8F5A00; --warn-soft:#FDF0D3;
-  --bad:#B3361F; --bad-soft:#FBE3DC;
-  --info:#2B5888; --info-soft:#E2ECF7;
+  /* Paleta da Praça Ta-Tu-do Bem: parede de pastilhas (creme), letreiro (marrom),
+     tatu (laranja) e as faixas vermelho / laranja / amarelo do mural */
+  --s1:#D8432B; --s2:#EE7F2D; --s3:#F5B83B;
+  --bg:#F4EFE7; --surface:#FFFFFF; --surface-2:#FBF7F0; --ink:#33261F; --muted:#6E6058; --line:#E6DCCC;
+  --pri:#C4501B; --pri-dark:#A23F14; --pri-soft:#FDE7D6;
+  --acc:#F2B035; --acc-soft:#FDF0D0;
+  --ok:#2F7A3A; --ok-soft:#E3F1DF;
+  --warn:#8A5600; --warn-soft:#FDF0D0;
+  --bad:#A3202E; --bad-soft:#FBE2E4;
+  --info:#2E68A0; --info-soft:#E1EDF8;
   --r:14px; --r-sm:10px;
-  --shadow:0 1px 2px rgba(31,42,36,.05),0 6px 18px rgba(31,42,36,.06);
+  --shadow:0 1px 2px rgba(51,38,31,.05),0 6px 18px rgba(51,38,31,.07);
+  --stripes:linear-gradient(90deg,var(--s1) 0 33.3%,var(--s2) 33.3% 66.6%,var(--s3) 66.6%);
   --font:"Nunito",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
 }
 *{box-sizing:border-box}
@@ -85,10 +89,12 @@ a.banner:hover{filter:brightness(.98)}
 .badge.warn{background:var(--warn-soft);color:var(--warn)}
 .badge.info{background:var(--info-soft);color:var(--info)}
 .badge.neutral{background:#ECE7DC;color:#55605A}
-.count{display:inline-grid;place-items:center;min-width:20px;height:20px;padding:0 6px;border-radius:999px;background:var(--acc);color:#fff;font-size:.72rem;font-weight:800}
+.count{display:inline-grid;place-items:center;min-width:20px;height:20px;padding:0 6px;border-radius:999px;background:var(--acc);color:var(--ink);font-size:.72rem;font-weight:800}
 
 /* ---------- Layout ---------- */
 .topbar{position:sticky;top:0;z-index:20;background:rgba(255,255,255,.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+.topbar{border-bottom:0}
+.topbar::after{content:"";display:block;height:4px;background:var(--stripes)}
 .topbar-in{max-width:1120px;margin:0 auto;display:flex;align-items:center;gap:1rem;padding:.65rem 1.1rem}
 .brand{display:flex;align-items:center;gap:.55rem;text-decoration:none;color:var(--ink);font-weight:800;font-size:1.12rem}
 .brand small{display:block;font-size:.72rem;color:var(--muted);font-weight:700;margin-top:-2px}
@@ -117,13 +123,17 @@ main.container{max-width:1120px;margin:0 auto;padding:1.4rem 1.1rem 6rem}
 
 /* ---------- Login ---------- */
 .auth-wrap{min-height:100vh;display:grid;grid-template-columns:1.05fr 1fr}
-.auth-side{background:var(--pri);color:#fff;padding:3rem;display:flex;flex-direction:column;justify-content:space-between;position:relative;overflow:hidden}
+.auth-side{background:var(--ink);color:#fff;padding:3rem;display:flex;flex-direction:column;justify-content:space-between;position:relative;overflow:hidden}
+.auth-side > *{position:relative;z-index:1}
 .auth-side h1{font-size:2.3rem;max-width:12ch}
+.auth-side h1 em{font-style:normal;color:var(--s3)}
 .auth-side p{opacity:.85;max-width:38ch;margin-top:.8rem;font-size:1.05rem}
-.auth-side .deco{position:absolute;right:-60px;bottom:-60px;opacity:.13;width:380px}
+.auth-side .mural{position:absolute;z-index:0;left:-10%;right:-10%;top:-40px;height:110px;transform:rotate(-6deg);background:linear-gradient(180deg,var(--s1) 0 33.3%,var(--s2) 33.3% 66.6%,var(--s3) 66.6%);opacity:.95}
+.auth-side .mural + div{margin-top:60px}
+.auth-side .deco{position:absolute;z-index:0;right:-20px;bottom:30px;width:300px;opacity:.9}
 .auth-steps{display:flex;flex-direction:column;gap:.7rem;margin-top:2rem}
 .auth-steps div{display:flex;gap:.7rem;align-items:center;font-weight:700}
-.auth-steps span{display:grid;place-items:center;width:30px;height:30px;border-radius:50%;background:rgba(255,255,255,.16);font-weight:800;flex:none}
+.auth-steps span{display:grid;place-items:center;width:30px;height:30px;border-radius:50%;background:var(--s2);color:var(--ink);font-weight:800;flex:none}
 .auth-main{display:flex;flex-direction:column;justify-content:center;padding:2.5rem;gap:1rem;max-width:520px;width:100%;margin:0 auto}
 .auth-card{padding:1.8rem}
 .auth-card h2{font-size:1.5rem}
@@ -224,8 +234,8 @@ kbd{font-family:inherit;font-size:.72rem;font-weight:800;border:1px solid var(--
 .quota-dots i.on{background:var(--pri)}
 
 /* ---------- Attendant ---------- */
-.att{display:grid;grid-template-columns:220px 1fr;max-width:1240px;margin:0 auto;min-height:calc(100vh - 61px)}
-.sidebar{border-right:1px solid var(--line);padding:1.2rem .7rem;display:flex;flex-direction:column;gap:.2rem;position:sticky;top:61px;height:calc(100vh - 61px)}
+.att{display:grid;grid-template-columns:220px 1fr;max-width:1240px;margin:0 auto;min-height:calc(100vh - 64px)}
+.sidebar{border-right:1px solid var(--line);padding:1.2rem .7rem;display:flex;flex-direction:column;gap:.2rem;position:sticky;top:64px;height:calc(100vh - 64px)}
 .sidebar a{display:flex;align-items:center;gap:.65rem;padding:.65rem .8rem;border-radius:10px;text-decoration:none;color:var(--muted);font-weight:800}
 .sidebar a:hover{background:rgba(0,0,0,.04);color:var(--ink)}
 .sidebar a.active{background:var(--pri-soft);color:var(--pri)}
@@ -316,7 +326,7 @@ dialog::backdrop{background:rgba(25,32,28,.45);backdrop-filter:blur(2px)}
   .userchip{padding:.2rem;border:0;background:transparent}
   .brand small{display:none}
   .att{grid-template-columns:1fr}
-  .sidebar{position:sticky;top:61px;height:auto;flex-direction:row;overflow-x:auto;border-right:0;border-bottom:1px solid var(--line);padding:.5rem;background:var(--bg);z-index:5;scrollbar-width:none}
+  .sidebar{position:sticky;top:64px;height:auto;flex-direction:row;overflow-x:auto;border-right:0;border-bottom:1px solid var(--line);padding:.5rem;background:var(--bg);z-index:5;scrollbar-width:none}
   .sidebar a{white-space:nowrap;padding:.5rem .75rem}
   .att main{padding:1.1rem 1rem 5rem}
 }
@@ -410,7 +420,18 @@ const P = {
   arrow:'<path d="M5 12h14M12 5l7 7-7 7"/>',
 };
 const ic = (n, cls='') => `<svg class="icon ${cls}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${P[n]}</svg>`;
-const logo = (s=34) => `<svg width="${s}" height="${s}" viewBox="0 0 40 40" aria-hidden="true"><rect width="40" height="40" rx="11" fill="#1E6B52"/><path d="M7 27c0-8 5.5-14 13-14s13 6 13 14z" fill="#F4E3BE"/><path d="M13 15.5 15 27M20 13v14M27 15.5 25 27" stroke="#1E6B52" stroke-width="1.6"/><circle cx="33" cy="25" r="2.4" fill="#F4E3BE"/><rect x="9" y="27" width="4" height="4" rx="1.5" fill="#F4E3BE"/><rect x="26" y="27" width="4" height="4" rx="1.5" fill="#F4E3BE"/></svg>`;
+// Tatu de perfil, inspirado no mascote do mural (viewBox 120×70)
+const MASCOT = `
+  <path d="M100 47 L119 58 L101 53 Z" fill="#EE7F2D"/>
+  <rect x="40" y="46" width="9" height="12" rx="3" fill="#D8652A"/><rect x="82" y="46" width="9" height="12" rx="3" fill="#D8652A"/>
+  <path d="M30 50 C30 24 50 12 70 13 C90 14 104 28 104 50 Z" fill="#EE7F2D"/>
+  <path d="M50 17 C46 28 46 40 48 50 M60 13.5 C57 26 57 38 58 50 M70 13 C69 26 69 38 69 50 M80 14.5 C81 27 81 39 80 50 M90 19 C92 30 92 40 91 50" stroke="#33261F" stroke-width="3.2" fill="none" stroke-linecap="round"/>
+  <path d="M36 30 C24 28 12 34 3 44 C14 48 26 50 36 48 Z" fill="#EE7F2D"/>
+  <ellipse cx="31" cy="24" rx="4.5" ry="8.5" transform="rotate(-18 31 24)" fill="#EE7F2D"/>
+  <ellipse cx="31" cy="25" rx="2" ry="5" transform="rotate(-18 31 25)" fill="#D8652A"/>
+  <circle cx="22" cy="38" r="4" fill="#fff"/><circle cx="21.2" cy="38.4" r="2.1" fill="#33261F"/>`;
+const mascot = (w=300, cls='') => `<svg class="${cls}" width="${w}" viewBox="0 0 120 64" aria-hidden="true">${MASCOT}</svg>`;
+const logo = (s=34) => `<svg width="${s}" height="${s}" viewBox="0 0 40 40" aria-hidden="true"><rect width="40" height="40" rx="11" fill="#33261F"/><rect y="0" width="40" height="3" fill="#D8432B"/><rect y="3" width="40" height="3" fill="#EE7F2D"/><rect y="6" width="40" height="3" fill="#F5B83B"/><g transform="translate(2.6 12.5) scale(.29)">${MASCOT}</g></svg>`;
 
 /* ---------------- dados iniciais ---------------- */
 function seed() {
@@ -679,9 +700,10 @@ function viewLogin() {
   return { full:true, html:`
   <div class="auth-wrap">
     <aside class="auth-side">
+      <span class="mural" aria-hidden="true"></span>
       <div>
-        <div class="brand" style="color:#fff">${logo(40)}<div>TaTu Jogos<small style="color:rgba(255,255,255,.7)">Tatu do Bem · UFV</small></div></div>
-        <h1 style="margin-top:2.4rem">Reserve um jogo e retire no balcão.</h1>
+        <div class="brand" style="color:#fff">${logo(40)}<div>TaTu Jogos<small style="color:rgba(255,255,255,.7)">Praça Ta-Tu-do Bem · UFV</small></div></div>
+        <h1 style="margin-top:2.4rem">Reserve um jogo e <em>retire no balcão.</em></h1>
         <p>O caderno de empréstimos do Tatu do Bem agora é digital: veja o que está disponível, reserve pelo celular e acompanhe seus prazos.</p>
         <div class="auth-steps">
           <div><span>1</span>Escolha um jogo no catálogo</div>
@@ -690,7 +712,7 @@ function viewLogin() {
         </div>
       </div>
       <p class="small foot" style="opacity:.7">${ic('pin')} Balcão do Tatu do Bem · seg. a sex., 8h às 18h</p>
-      <svg class="deco" viewBox="0 0 40 40"><path d="M7 27c0-8 5.5-14 13-14s13 6 13 14z" fill="#fff"/></svg>
+      ${mascot(300, 'deco')}
     </aside>
     <div class="auth-main">
       <div class="card auth-card">
@@ -1277,7 +1299,7 @@ function viewNotFound() { return { html:`<div class="card empty">${ic('alert')}<
 function userLayout(content, route) {
   const u = me(), guest = u.role==='visitante';
   const n = guest ? 0 : activeOf(u.id).length, late = guest ? false : activeOf(u.id).some(isOverdue);
-  const cnt = n ? `<span class="count" style="${late?'background:var(--bad)':''}" aria-label="${n} ativas">${n}</span>` : '';
+  const cnt = n ? `<span class="count" style="${late?'background:var(--bad);color:#fff':''}" aria-label="${n} ativas">${n}</span>` : '';
   const a = (r, href, icon, label, extra='') => `<a href="${href}" class="${route===r?'active':''}" ${route===r?'aria-current="page"':''}>${ic(icon)}<span>${label}</span>${extra}</a>`;
   return `
   <header class="topbar"><div class="topbar-in">
@@ -1307,8 +1329,8 @@ function attLayout(content, route) {
   <div class="att">
     <nav class="sidebar" aria-label="Painel">
       ${a('home','#/atendente','home','Início')}
-      ${a('reservas','#/atendente/reservas','calendar','Reservas', c.reservadas.length?`<span class="count" style="background:var(--pri)">${c.reservadas.length}</span>`:'')}
-      ${a('emprestimos','#/atendente/emprestimos','layers','Empréstimos', c.overdue.length?`<span class="count" style="background:var(--bad)" title="atrasados">${c.overdue.length}</span>`:'')}
+      ${a('reservas','#/atendente/reservas','calendar','Reservas', c.reservadas.length?`<span class="count" style="background:var(--pri);color:#fff">${c.reservadas.length}</span>`:'')}
+      ${a('emprestimos','#/atendente/emprestimos','layers','Empréstimos', c.overdue.length?`<span class="count" style="background:var(--bad);color:#fff" title="atrasados">${c.overdue.length}</span>`:'')}
       ${a('devolucoes','#/atendente/devolucoes','undo','Devoluções')}
       ${a('jogos','#/atendente/jogos','dice','Jogos')}
       ${a('registro','#/atendente/registro','log','Registro')}
